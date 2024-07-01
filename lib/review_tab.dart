@@ -113,34 +113,46 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
               visible: !isResponseHidden,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                  children: [                    
                     Expanded(
                         child: ElevatedButton(
                       onPressed: () {
                         _onQualityButtonPress(2);
                       },
-                      child: const Text("Encore"),
+                      child: const Text("Encore", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red, // Change the color here
+                      ),
                     )),
                     Expanded(
                         child: ElevatedButton(
                       onPressed: () {
                         _onQualityButtonPress(3);
                       },
-                      child: const Text("Difficile"),
+                      child: const Text("Difficile", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.grey, // Change the color here
+                      ),
                     )),
                     Expanded(
                         child: ElevatedButton(
                       onPressed: () {
                         _onQualityButtonPress(4);
                       },
-                      child: const Text("Correct"),
+                      child: const Text("Correct", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green, // Change the color here
+                      ),
                     )),
                     Expanded(
                         child: ElevatedButton(
                       onPressed: () {
                         _onQualityButtonPress(5);
                       },
-                      child: const Text("Facile"),
+                      child: const Text("Facile", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue, // Change the color here
+                      ),
                     )),
                   ]),
             ),

@@ -147,7 +147,9 @@ class _TranslateTabState extends State<TranslateTab> {
               decoration: const InputDecoration(
                 hintText: 'Écrivez ou collez votre texte ici pour le traduire',
                 border: OutlineInputBorder(),
+                counterText: "",
               ),
+              maxLength: 100,
               onChanged: (value) {
                 setState(() {
                   _wordToTranslate = value;

@@ -141,13 +141,13 @@ class DataTableTabState extends State<DataTableTab> {
                     DataColumn(
                       label: SizedBox(
                         width: constraints.maxWidth * 0.35,
-                        child: const Text('Espagnol'),
+                        child: Text(LANGUAGES[TARGET_LANGUAGE]!),
                       ),
                     ),
                     DataColumn(
                       label: SizedBox(
                         width: constraints.maxWidth * 0.35,
-                        child: const Text('Français'),
+                        child: Text(LANGUAGES[SOURCE_LANGUAGE]!),
                       ),
                     ),
                   ],
