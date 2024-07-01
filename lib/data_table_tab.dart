@@ -1,6 +1,7 @@
 // DataTableTab widget
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
+import 'constants.dart';
 
 class DataTableTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
@@ -29,7 +30,7 @@ class DataTableTabState extends State<DataTableTab> {
     List<Map<dynamic, dynamic>> fetchedData =
         await widget.flashcardsCollection.loadData();
     setState(() {
-      data = fetchedData.where((row) => (row['sourceLang']) == 'ES').toList();
+      data = fetchedData.where((row) => (row['sourceLang']) == TARGET_LANGUAGE).toList();
     });
   }
 

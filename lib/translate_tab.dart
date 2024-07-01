@@ -1,21 +1,22 @@
 // Translate tab widget with a language selector, a text field for the word to translate, a text label to display the translation and a button to translate the word.
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
-import 'utils/deepl_translator.dart'; // version traduction précédente
-import 'utils/server_connection.dart'; // version traduction modifiée
+import 'utils/deepl_translator.dart'; // version traduction locale
+import 'utils/server_connection.dart'; // version traduction serveur
+import 'constants.dart';
 
 class TranslateTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
-  final DeeplTranslator deeplTranslator; // Version traduction précédente
-  final ServerConnection serverConnection; // Version traduction modifiée
+  final DeeplTranslator deeplTranslator; // Version traduction locale
+  final ServerConnection serverConnection; // Version traduction serveur
   final Function(Map<dynamic, dynamic>) addRow;
   final Function() updateQuestionText;
 
   const TranslateTab({
     Key? key,
     required this.flashcardsCollection,
-    required this.deeplTranslator, // Version traduction précédente
-    required this.serverConnection, // Version traduction modifiée
+    required this.deeplTranslator, // Version traduction locale
+    required this.serverConnection, // Version traduction serveur
     required this.addRow,
     required this.updateQuestionText,
   }) : super(key: key);
@@ -25,8 +26,8 @@ class TranslateTab extends StatefulWidget {
 }
 
 class _TranslateTabState extends State<TranslateTab> {
-  String _sourceLanguage = 'FR';
-  String _targetLanguage = 'ES';
+  String _sourceLanguage = SOURCE_LANGUAGE;
+  String _targetLanguage = TARGET_LANGUAGE;
   String _wordToTranslate = '';
   String _translatedWord = '';
   bool isTranslateButtonDisabled = false;
@@ -43,8 +44,8 @@ class _TranslateTabState extends State<TranslateTab> {
   Future<void> _translate() async {
     isTranslateButtonDisabled = true;
     try {
-      String translation = await widget.deeplTranslator.translate( // Version traduction précédente
-      // String translation = await widget.serverConnection.translate( // Version traduction modifiée
+      String translation = await widget.deeplTranslator.translate( // Version traduction locale
+      // String translation = await widget.serverConnection.translate( // Version traduction serveur
         _wordToTranslate,
         _targetLanguage,
         _sourceLanguage,
