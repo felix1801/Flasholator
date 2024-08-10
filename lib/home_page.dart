@@ -61,8 +61,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _launchEmail() async {
-    // do nothing
-
     String email = Uri.encodeComponent("felix.mortas@hotmail.fr");
     String subject = Uri.encodeComponent("Feedback pour Flasholator");
     String body = Uri.encodeComponent(
@@ -73,15 +71,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       //email app is not opened
     }
-
-    // final Uri _emailLaunchUri = Uri(
-    //   scheme: 'mailto',
-    //   path: 'felix.mortas@hotmail.fr',
-    //   queryParameters: {
-    //     'subject': 'Feedback for Flasholator',
-    //     'body': 'Hello, I would like to share the following feedback:'
-    //   }); // Uri object for the mailto URL
-    // await launch(_emailLaunchUri.toString()); // Launch the mailto URL
   }
 
   @override
