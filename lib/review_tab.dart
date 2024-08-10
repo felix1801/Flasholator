@@ -21,6 +21,8 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
   bool isDue = false;
   String _questionText = "";
   String _responseText = "";
+  String _questionLang = "";
+  String _responseLang = "";
 
   set currentFlashcard(Flashcard currentFlashcard) {
     _currentFlashcard = currentFlashcard;
@@ -42,13 +44,16 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
       _currentFlashcard = dueFlashcards[0];
       setState(() {
         _questionText = _currentFlashcard.front;
+        _questionLang = _currentFlashcard.sourceLang;
         isResponseHidden = true;
         isDue = true;
         _responseText = _currentFlashcard.back;
+        _responseLang = _currentFlashcard.targetLang;
       });
     } else {
       setState(() {
         _questionText = "Pas de carte à réviser aujourd'hui";
+        _questionLang = "";
         isResponseHidden = true;
         isDue = false;
       });
@@ -77,26 +82,64 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
-              child:
-                  Text(_questionText, style: const TextStyle(fontSize: 18.0)),
+            Row(
+              children: [
+          Text(
+            _questionLang,
+            style: const TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Arial',
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(width: 8.0),
+          Expanded(
+            child: Center(
+              child: Text(
+                _questionText,
+                style: const TextStyle(fontSize: 18.0),
+              ),
+            ),
+          ),
+              ],
             ),
             const SizedBox(height: 16.0),
             Visibility(
-                visible: !isResponseHidden,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        height: 1.0,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 16.0),
-                      Center(
-                        child: Text(_responseText,
-                            style: const TextStyle(fontSize: 18.0)),
-                      ),
-                    ])),
+              visible: !isResponseHidden,
+              child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: 1.0,
+              color: Colors.grey,
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              children: [
+                Text(
+            _responseLang,
+            style: const TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Arial',
+              color: Colors.grey,
+            ),
+                ),
+                const SizedBox(width: 8.0),
+                Expanded(
+            child: Center(
+              child: Text(
+                _responseText,
+                style: const TextStyle(fontSize: 18.0),
+              ),
+            ),
+                ),
+              ],
+            ),
+          ],
+              ),
+            ),
             Expanded(
               child: Container(),
             ),
@@ -104,78 +147,91 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
             Visibility(
               visible: isResponseHidden && isDue,
               child: ElevatedButton(
-                onPressed: () async {
-                  _displayAnswer();
-                },
-                child: const Text('Afficher la réponse'),
+          onPressed: () async {
+            _displayAnswer();
+          },
+          child: const Text('Afficher la réponse'),
               ),
             ),
             Visibility(
               visible: !isResponseHidden,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                        child: ElevatedButton(
-                      onPressed: () {
-                        _onQualityButtonPress(2);
-                      },
-                      child: const Text("Encore",
-                          style: TextStyle(color: Colors.white),
-                          softWrap: false,
-                          overflow: TextOverflow.visible,
-                          maxLines: 1),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red, // Change the color here
-                      ),
-                    )),
-                    Expanded(
-                        child: ElevatedButton(
-                      onPressed: () {
-                        _onQualityButtonPress(3);
-                      },
-                      child: const Text("Difficile",
-                          style: TextStyle(color: Colors.white),
-                          softWrap: false,
-                          overflow: TextOverflow.visible,
-                          maxLines: 1),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.grey, // Change the color here
-                      ),
-                    )),
-                    Expanded(
-                        child: ElevatedButton(
-                      onPressed: () {
-                        _onQualityButtonPress(4);
-                      },
-                      child: const Text("Correct",
-                          style: TextStyle(color: Colors.white),
-                          softWrap: false,
-                          overflow: TextOverflow.visible,
-                          maxLines: 1),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green, // Change the color here
-                      ),
-                    )),
-                    Expanded(
-                        child: ElevatedButton(
-                      onPressed: () {
-                        _onQualityButtonPress(5);
-                      },
-                      child: const Text("Facile",
-                          style: TextStyle(color: Colors.white),
-                          softWrap: false,
-                          overflow: TextOverflow.visible,
-                          maxLines: 1),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue, // Change the color here
-                      ),
-                    )),
-                  ]),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+            _onQualityButtonPress(2);
+                },
+                child: const Text(
+            "Encore",
+            style: TextStyle(color: Colors.white),
+            softWrap: false,
+            overflow: TextOverflow.visible,
+            maxLines: 1,
+                ),
+                style: ElevatedButton.styleFrom(
+            primary: Colors.red, // Change the color here
+                ),
+              ),
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+            _onQualityButtonPress(3);
+                },
+                child: const Text(
+            "Difficile",
+            style: TextStyle(color: Colors.white),
+            softWrap: false,
+            overflow: TextOverflow.visible,
+            maxLines: 1,
+                ),
+                style: ElevatedButton.styleFrom(
+            primary: Colors.grey, // Change the color here
+                ),
+              ),
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+            _onQualityButtonPress(4);
+                },
+                child: const Text(
+            "Correct",
+            style: TextStyle(color: Colors.white),
+            softWrap: false,
+            overflow: TextOverflow.visible,
+            maxLines: 1,
+                ),
+                style: ElevatedButton.styleFrom(
+            primary: Colors.green, // Change the color here
+                ),
+              ),
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+            _onQualityButtonPress(5);
+                },
+                child: const Text(
+            "Facile",
+            style: TextStyle(color: Colors.white),
+            softWrap: false,
+            overflow: TextOverflow.visible,
+            maxLines: 1,
+                ),
+                style: ElevatedButton.styleFrom(
+            primary: Colors.blue, // Change the color here
+                ),
+              ),
+            ),
+          ],
+              ),
             ),
           ],
         ),
-      ),
-    );
+        ),
+      );
   }
 }
