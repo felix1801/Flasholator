@@ -73,6 +73,46 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _openSettings() {
+    // Open the settings dialog box with lang selecter button and stats button
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Paramètres'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/settings');
+                },
+                child: const Text('Langues'),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/stats');
+                },
+                child: const Text('Statistiques'),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/help');
+                },
+                child: const Text('Aide'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -91,10 +131,10 @@ class _HomePageState extends State<HomePage> {
               const Text('Flasholator'),
               const SizedBox(width: 8),
               IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {
-            // Add your settings button logic here
-          },
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  _openSettings();
+                },
               ),
             ],
           ),
@@ -102,26 +142,26 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-          onPressed: _launchEmail,
-          style: ElevatedButton.styleFrom(
-            primary:
-                Colors.orange, // Couleur vive pour attirer l'attention
-            onPrimary: Colors.white, // Couleur du texte
-            padding: EdgeInsets.symmetric(
-                horizontal: 16, vertical: 8), // Taille appropriée
-            shape: RoundedRectangleBorder(
-              borderRadius:
-            BorderRadius.circular(8), // Bordures arrondies
-            ),
-            elevation: 5, // Effet de relief
-          ),
-          child: Row(
-            children: [
-              Icon(Icons.feedback, size: 18), // Icône pertinente
-              SizedBox(width: 8), // Espace entre l'icône et le texte
-              Text('Donner un feedback'), // Texte clair
-            ],
-          ),
+                onPressed: _launchEmail,
+                style: ElevatedButton.styleFrom(
+                  primary:
+                      Colors.orange, // Couleur vive pour attirer l'attention
+                  onPrimary: Colors.white, // Couleur du texte
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 8), // Taille appropriée
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(8), // Bordures arrondies
+                  ),
+                  elevation: 5, // Effet de relief
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.feedback, size: 18), // Icône pertinente
+                    SizedBox(width: 8), // Espace entre l'icône et le texte
+                    Text('Donner un feedback'), // Texte clair
+                  ],
+                ),
               ),
             ),
           ],
