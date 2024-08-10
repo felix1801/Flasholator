@@ -1,7 +1,7 @@
 // HomePage widget with 3 tabs : Traduire, Réviser and Paquet
 import 'dart:io';
 
-import 'utils/deepl_translator.dart';  // version précédente
+import 'utils/deepl_translator.dart'; // version précédente
 import 'utils/server_connection.dart'; // version modifiée
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
@@ -9,20 +9,19 @@ import 'translate_tab.dart';
 import 'review_tab.dart';
 import 'data_table_tab.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
   final DeeplTranslator deeplTranslator; // version précédente
   final ServerConnection serverConnection; // version modifiée
 
-  const HomePage(
-      {Key? key,
-      required this.flashcardsCollection,
-      required this.deeplTranslator, // version précédente
-      required this.serverConnection, // version modifiée
-      })
-      : super(key: key);
+  const HomePage({
+    Key? key,
+    required this.flashcardsCollection,
+    required this.deeplTranslator, // version précédente
+    required this.serverConnection, // version modifiée
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -36,8 +35,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     if (Platform.isAndroid) {
-    requestPermissions(); // Call the requestPermissions() method here
-  }
+      requestPermissions(); // Call the requestPermissions() method here
+    }
   }
 
   void dataTableTabFunction(Map<dynamic, dynamic> row) {
@@ -61,6 +60,30 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _launchEmail() async {
+    // do nothing
+
+    String email = Uri.encodeComponent("felix.mortas@hotmail.fr");
+    String subject = Uri.encodeComponent("Feedback pour Flasholator");
+    String body = Uri.encodeComponent(
+        "Salut, je suis le développeur de Flasholator. J'ai réalisé une application avec 2 fonctionnalités principales : traduire puis réviser. J'aimerais avoir ton avis sur celle-ci: fonctionnalités, design, bugs, améliorations, zones d'ombre, idées, langues, intégration, accessibilité, lisibilité, ergonomie, etc. Merci d'avance pour ton retour. Félix");
+    Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
+    if (await launchUrl(mail)) {
+      //email app opened
+    } else {
+      //email app is not opened
+    }
+
+    // final Uri _emailLaunchUri = Uri(
+    //   scheme: 'mailto',
+    //   path: 'felix.mortas@hotmail.fr',
+    //   queryParameters: {
+    //     'subject': 'Feedback for Flasholator',
+    //     'body': 'Hello, I would like to share the following feedback:'
+    //   }); // Uri object for the mailto URL
+    // await launch(_emailLaunchUri.toString()); // Launch the mailto URL
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -75,6 +98,33 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           title: const Text('Flasholator'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: _launchEmail,
+                style: ElevatedButton.styleFrom(
+                  primary:
+                      Colors.orange, // Couleur vive pour attirer l'attention
+                  onPrimary: Colors.white, // Couleur du texte
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 8), // Taille appropriée
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(8), // Bordures arrondies
+                  ),
+                  elevation: 5, // Effet de relief
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.feedback, size: 18), // Icône pertinente
+                    SizedBox(width: 8), // Espace entre l'icône et le texte
+                    Text('Donner un feedback'), // Texte clair
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
         body: TabBarView(
           children: [

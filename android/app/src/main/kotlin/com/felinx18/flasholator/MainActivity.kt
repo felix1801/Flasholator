@@ -1,4 +1,4 @@
-package com.example.flasholator
+package com.felinx18.flasholator
 
 import io.flutter.embedding.android.FlutterActivity
 

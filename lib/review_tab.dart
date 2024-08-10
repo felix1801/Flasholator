@@ -82,20 +82,21 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                   Text(_questionText, style: const TextStyle(fontSize: 18.0)),
             ),
             const SizedBox(height: 16.0),
-            Visibility(visible: !isResponseHidden, child: 
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Container(
-                  height: 1.0,
-                  color: Colors.grey,
-                ),
-                const SizedBox(height: 16.0),
-                Center(child: 
-                  Text(_responseText,
-                          style: const TextStyle(fontSize: 18.0)
-                  ),
-                ),
-              ])
-            ),
+            Visibility(
+                visible: !isResponseHidden,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        height: 1.0,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 16.0),
+                      Center(
+                        child: Text(_responseText,
+                            style: const TextStyle(fontSize: 18.0)),
+                      ),
+                    ])),
             Expanded(
               child: Container(),
             ),
@@ -113,13 +114,17 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
               visible: !isResponseHidden,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [                    
+                  children: [
                     Expanded(
                         child: ElevatedButton(
                       onPressed: () {
                         _onQualityButtonPress(2);
                       },
-                      child: const Text("Encore", style: TextStyle(color: Colors.white)),
+                      child: const Text("Encore",
+                          style: TextStyle(color: Colors.white),
+                          softWrap: false,
+                          overflow: TextOverflow.visible,
+                          maxLines: 1),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.red, // Change the color here
                       ),
@@ -129,7 +134,11 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                       onPressed: () {
                         _onQualityButtonPress(3);
                       },
-                      child: const Text("Difficile", style: TextStyle(color: Colors.white)),
+                      child: const Text("Difficile",
+                          style: TextStyle(color: Colors.white),
+                          softWrap: false,
+                          overflow: TextOverflow.visible,
+                          maxLines: 1),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.grey, // Change the color here
                       ),
@@ -139,7 +148,11 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                       onPressed: () {
                         _onQualityButtonPress(4);
                       },
-                      child: const Text("Correct", style: TextStyle(color: Colors.white)),
+                      child: const Text("Correct",
+                          style: TextStyle(color: Colors.white),
+                          softWrap: false,
+                          overflow: TextOverflow.visible,
+                          maxLines: 1),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green, // Change the color here
                       ),
@@ -149,7 +162,11 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                       onPressed: () {
                         _onQualityButtonPress(5);
                       },
-                      child: const Text("Facile", style: TextStyle(color: Colors.white)),
+                      child: const Text("Facile",
+                          style: TextStyle(color: Colors.white),
+                          softWrap: false,
+                          overflow: TextOverflow.visible,
+                          maxLines: 1),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.blue, // Change the color here
                       ),
@@ -162,53 +179,3 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
     );
   }
 }
-    
-    
-//     Container(padding: const EdgeInsets.all(8.0), child: 
-//       Column(children: [
-
-//         Text(_questionText),
-
-//         Visibility(visible: !isResponseHidden, child: 
-//           Text(_responseText)
-//         ),
-
-//         Expanded(child: 
-//           Align(alignment: Alignment.bottomCenter, child: 
-//             Visibility(visible: isResponseHidden, child: 
-//               ElevatedButton(
-//                 onPressed: () async {_displayAnswer();},
-//                 child: const Text('Display Answer'),
-//               ),
-//             )
-//           )
-//         ),
-
-//         Visibility(visible: !isResponseHidden, child: 
-//           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-//             ElevatedButton(
-//               onPressed: () {_onQualityButtonPress(2);},
-//               child: const Text("Encore"),
-//             ),
-
-//             ElevatedButton(
-//               onPressed: () {_onQualityButtonPress(3);},
-//               child: const Text("Difficile"),
-//             ),
-            
-//             ElevatedButton(
-//               onPressed: () {_onQualityButtonPress(4);},
-//               child: const Text("Correct"),
-//             ),
-            
-//             ElevatedButton(
-//               onPressed: () {_onQualityButtonPress(5);},
-//               child: const Text("Facile"),
-//             ),
-
-//           ]),
-//         ),
-//       ],),  
-//     );
-//   }
-// }
