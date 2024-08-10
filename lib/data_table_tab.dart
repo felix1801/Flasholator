@@ -30,13 +30,16 @@ class DataTableTabState extends State<DataTableTab> {
     List<Map<dynamic, dynamic>> fetchedData =
         await widget.flashcardsCollection.loadData();
     setState(() {
-      data = fetchedData.where((row) => (row['sourceLang']) == TARGET_LANGUAGE).toList();
+      data = fetchedData
+          .where((row) => (row['sourceLang']) == TARGET_LANGUAGE)
+          .toList();
     });
   }
 
   void addRow(Map<dynamic, dynamic> row) {
     setState(() {
-      data.insert(data.length-10, row);
+      // data.insert(data.length - 10, row); // old version
+      data.add(row); // new version
     });
   }
 
@@ -96,11 +99,69 @@ class DataTableTabState extends State<DataTableTab> {
     );
   }
 
-  // Function that open a popup with "Ajouter un mot" title, and a text display with sourcLang next to a text input field. Same for the targetLang next to a text input field. There is 2 buttons : "Ajouter" and "Annuler". when clicked the "Ajouter popup", call the function "addFalshcard" of the flashcards_collection object
-  void _openAddPopup() {
-    
+  void _addFlashcard(String front, String back) {
+    widget.flashcardsCollection
+        .addFlashcard(front, back, SOURCE_LANGUAGE, TARGET_LANGUAGE);
+    addRow({'front': front, 'back': back});
   }
 
+  void _openAddPopup() {
+    String? front;
+    String? back;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Ajouter un mot'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Text(LANGUAGES[SOURCE_LANGUAGE]!),
+                  Expanded(
+                    child: TextField(
+                      onChanged: (String value) {
+                        front = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(LANGUAGES[TARGET_LANGUAGE]!),
+                  Expanded(
+                    child: TextField(
+                      onChanged: (String value) {
+                        back = value;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (front != null && back != null && front!.isNotEmpty && back!.isNotEmpty) {
+                  _addFlashcard(front!, back!);
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Ajouter'),
+            ),
+            TextButton(
+              onPressed: Navigator.of(context).pop,
+              child: const Text('Annuler'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   void _openConfirmPopup(
       Map<dynamic, dynamic> row, BuildContext parentContext) {
@@ -206,5 +267,4 @@ class _DataSource extends DataTableSource {
 
   @override
   int get selectedRowCount => 0;
-}    
-    
+}
