@@ -69,7 +69,7 @@ class DataTableTabState extends State<DataTableTab> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Word'),
+          title: const Text('Modifier un mot'),
           content: TextField(
             controller: TextEditingController(text: row[key]),
             onChanged: (String value) {
@@ -96,13 +96,19 @@ class DataTableTabState extends State<DataTableTab> {
     );
   }
 
+  // Function that open a popup with "Ajouter un mot" title, and a text display with sourcLang next to a text input field. Same for the targetLang next to a text input field. There is 2 buttons : "Ajouter" and "Annuler". when clicked the "Ajouter popup", call the function "addFalshcard" of the flashcards_collection object
+  void _openAddPopup() {
+    
+  }
+
+
   void _openConfirmPopup(
       Map<dynamic, dynamic> row, BuildContext parentContext) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Êtes-vous sûr ?'),
+          title: const Text('Es-tu sûr ?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -128,12 +134,11 @@ class DataTableTabState extends State<DataTableTab> {
         builder: (BuildContext context, BoxConstraints constraints) {
       double scaffoldHeight = constraints.maxHeight;
       return Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 child: PaginatedDataTable(
                   headingRowHeight: kMinInteractiveDimension,
                   columns: [
@@ -157,8 +162,13 @@ class DataTableTabState extends State<DataTableTab> {
                   source: _DataSource(data, _openEditPopup),
                 ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: scaffoldHeight % kMinInteractiveDimension.ceil()),
+            ElevatedButton(
+              onPressed: _openAddPopup,
+              child: Text('Ajouter un mot'),
+            ),
+          ],
         ),
       );
     });
