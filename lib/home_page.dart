@@ -86,31 +86,42 @@ class _HomePageState extends State<HomePage> {
               Tab(icon: Icon(Icons.folder)),
             ],
           ),
-          title: const Text('Flasholator'),
+          title: Row(
+            children: [
+              const Text('Flasholator'),
+              const SizedBox(width: 8),
+              IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {
+            // Add your settings button logic here
+          },
+              ),
+            ],
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: _launchEmail,
-                style: ElevatedButton.styleFrom(
-                  primary:
-                      Colors.orange, // Couleur vive pour attirer l'attention
-                  onPrimary: Colors.white, // Couleur du texte
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 8), // Taille appropriée
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8), // Bordures arrondies
-                  ),
-                  elevation: 5, // Effet de relief
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.feedback, size: 18), // Icône pertinente
-                    SizedBox(width: 8), // Espace entre l'icône et le texte
-                    Text('Donner un feedback'), // Texte clair
-                  ],
-                ),
+          onPressed: _launchEmail,
+          style: ElevatedButton.styleFrom(
+            primary:
+                Colors.orange, // Couleur vive pour attirer l'attention
+            onPrimary: Colors.white, // Couleur du texte
+            padding: EdgeInsets.symmetric(
+                horizontal: 16, vertical: 8), // Taille appropriée
+            shape: RoundedRectangleBorder(
+              borderRadius:
+            BorderRadius.circular(8), // Bordures arrondies
+            ),
+            elevation: 5, // Effet de relief
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.feedback, size: 18), // Icône pertinente
+              SizedBox(width: 8), // Espace entre l'icône et le texte
+              Text('Donner un feedback'), // Texte clair
+            ],
+          ),
               ),
             ),
           ],
