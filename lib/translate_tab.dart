@@ -44,8 +44,9 @@ class _TranslateTabState extends State<TranslateTab> {
   Future<void> _translate() async {
     isTranslateButtonDisabled = true;
     try {
-      String translation = await widget.deeplTranslator.translate( // Version traduction locale
-      // String translation = await widget.serverConnection.translate( // Version traduction serveur
+      String translation = await widget.deeplTranslator.translate(
+        // Version traduction locale
+        // String translation = await widget.serverConnection.translate( // Version traduction serveur
         _wordToTranslate,
         _targetLanguage,
         _sourceLanguage,
@@ -124,7 +125,7 @@ class _TranslateTabState extends State<TranslateTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _sourceLanguage,
+                  LANGUAGES[_sourceLanguage]!,
                   style: const TextStyle(fontSize: 18.0),
                 ),
                 ElevatedButton(
@@ -136,7 +137,7 @@ class _TranslateTabState extends State<TranslateTab> {
                   child: const Icon(Icons.swap_horiz),
                 ),
                 Text(
-                  _targetLanguage,
+                  LANGUAGES[_targetLanguage]!,
                   style: const TextStyle(fontSize: 18.0),
                 ),
               ],
