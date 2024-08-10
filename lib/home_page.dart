@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
     String email = Uri.encodeComponent("felix.mortas@hotmail.fr");
     String subject = Uri.encodeComponent("Feedback pour Flasholator");
     String body = Uri.encodeComponent(
-        "Salut, je suis le développeur de Flasholator. J'ai réalisé une application avec 2 fonctionnalités principales : traduire puis réviser. J'aimerais avoir ton avis sur celle-ci: fonctionnalités, design, bugs, améliorations, zones d'ombre, idées, langues, intégration, accessibilité, lisibilité, ergonomie, etc. Merci d'avance pour ton retour. Félix");
+        "Bonjour, Les 2 fonctionnalités principales de cette application sont traduire puis réviser ce qu'on a traduit. Nous aimerions avoir ton avis sur l'application: nouveau nom, fonctionnalités, design, bugs, améliorations, zones d'ombre, idées, langues, intégration, accessibilité, lisibilité, ergonomie, etc. Merci d'avance pour ton retour ! L'équipe de Flasholator");
     Uri mail = Uri.parse("mailto:$email?subject=$subject&body=$body");
     if (await launchUrl(mail)) {
       //email app opened
