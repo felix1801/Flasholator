@@ -124,7 +124,6 @@ class DataTableTabState extends State<DataTableTab> {
 
   @override
   Widget build(BuildContext context) {
-    final tabSize = MediaQuery.of(context).size.height;
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
       double scaffoldHeight = constraints.maxHeight;
