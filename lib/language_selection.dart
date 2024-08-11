@@ -10,4 +10,8 @@ class LanguageSelection {
   }
 
   LanguageSelection._internal();
+
+  static LanguageSelection getInstance() {
+    return _instance;
+  }
 }

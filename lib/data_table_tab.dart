@@ -1,7 +1,9 @@
 // DataTableTab widget
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
+import 'language_selection.dart';
 import 'constants.dart';
+import 'language_selection.dart';
 
 class DataTableTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
@@ -31,10 +33,15 @@ class DataTableTabState extends State<DataTableTab> {
         await widget.flashcardsCollection.loadData();
     setState(() {
       data = fetchedData
-          .where((row) => (row['sourceLang']) == TARGET_LANGUAGE)
+          .where(
+              (row) => (row['sourceLang']) == languageSelection.targetLanguage)
           .toList();
     });
   }
+
+  LanguageSelection languageSelection = LanguageSelection.getInstance();
+
+  // Rest of the code...
 
   void addRow(Map<dynamic, dynamic> row) {
     setState(() {
