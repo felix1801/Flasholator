@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
 import 'utils/deepl_translator.dart'; // version traduction locale
 import 'utils/server_connection.dart'; // version traduction serveur
+import 'language_selection.dart';
 import 'constants.dart';
 
 class TranslateTab extends StatefulWidget {
@@ -26,8 +27,7 @@ class TranslateTab extends StatefulWidget {
 }
 
 class _TranslateTabState extends State<TranslateTab> {
-  String _sourceLanguage = SOURCE_LANGUAGE;
-  String _targetLanguage = TARGET_LANGUAGE;
+  final languageSelection = LanguageSelection();
   String _wordToTranslate = '';
   String _translatedWord = '';
   bool isTranslateButtonDisabled = false;
@@ -35,9 +35,9 @@ class _TranslateTabState extends State<TranslateTab> {
 
   void _swapContent() {
     setState(() {
-      final String tmp = _sourceLanguage;
-      _sourceLanguage = _targetLanguage;
-      _targetLanguage = tmp;
+      final String tmp = languageSelection.sourceLanguage;
+      languageSelection.sourceLanguage = languageSelection.targetLanguage;
+      languageSelection.targetLanguage = tmp;
     });
   }
 
@@ -48,8 +48,8 @@ class _TranslateTabState extends State<TranslateTab> {
         // Version traduction locale
         // String translation = await widget.serverConnection.translate( // Version traduction serveur
         _wordToTranslate,
-        _targetLanguage,
-        _sourceLanguage,
+        languageSelection.targetLanguage,
+        languageSelection.sourceLanguage,
       );
       isTranslateButtonDisabled = false;
       isAddButtonDisabled = false;
@@ -76,11 +76,14 @@ class _TranslateTabState extends State<TranslateTab> {
       widget.addRow({
         'front': _wordToTranslate,
         'back': _translatedWord,
-        'sourceLang': _sourceLanguage,
-        'targetLang': _targetLanguage,
+        'sourceLang': languageSelection.sourceLanguage,
+        'targetLang': languageSelection.targetLanguage,
       });
       widget.flashcardsCollection.addFlashcard(
-          _wordToTranslate, _translatedWord, _sourceLanguage, _targetLanguage);
+          _wordToTranslate,
+          _translatedWord,
+          languageSelection.sourceLanguage,
+          languageSelection.targetLanguage);
 
       widget.updateQuestionText();
       setState(() {});
@@ -125,11 +128,11 @@ class _TranslateTabState extends State<TranslateTab> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 DropdownButton<String>(
-                  value: _sourceLanguage,
+                  value: languageSelection.sourceLanguage,
                   onChanged: (String? newValue) {
-                    if (newValue != _targetLanguage) {
+                    if (newValue != languageSelection.targetLanguage) {
                       setState(() {
-                        _sourceLanguage = newValue!;
+                        languageSelection.sourceLanguage = newValue!;
                       });
                     }
                   },
@@ -137,22 +140,23 @@ class _TranslateTabState extends State<TranslateTab> {
                       LANGUAGES.entries.map((MapEntry<String, String> entry) {
                     return DropdownMenuItem<String>(
                       value: entry.key,
+                      onTap: () {
+                        if (languageSelection.targetLanguage == entry.key) {
+                          return null;
+                        }
+                      },
+                      enabled: languageSelection.targetLanguage !=
+                          entry
+                              .key, // Disable tapping on the item if it's the target language
                       child: Text(
                         entry.value,
                         style: TextStyle(
                           fontSize: 18.0,
-                          color:
-                              _targetLanguage == entry.key ? Colors.grey : null,
+                          color: languageSelection.targetLanguage == entry.key
+                              ? Colors.grey
+                              : null,
                         ),
                       ),
-                      onTap: () {
-                        if (_targetLanguage == entry.key) {
-                          return null;
-                        }
-                      },
-                      enabled: _targetLanguage !=
-                          entry
-                              .key, // Disable tapping on the item if it's the target language
                     );
                   }).toList(),
                 ),
@@ -165,11 +169,11 @@ class _TranslateTabState extends State<TranslateTab> {
                   child: const Icon(Icons.swap_horiz),
                 ),
                 DropdownButton<String>(
-                  value: _targetLanguage,
+                  value: languageSelection.targetLanguage,
                   onChanged: (String? newValue) {
-                    if (newValue != _sourceLanguage) {
+                    if (newValue != languageSelection.sourceLanguage) {
                       setState(() {
-                        _targetLanguage = newValue!;
+                        languageSelection.targetLanguage = newValue!;
                       });
                     }
                   },
@@ -177,21 +181,23 @@ class _TranslateTabState extends State<TranslateTab> {
                       LANGUAGES.entries.map((MapEntry<String, String> entry) {
                     return DropdownMenuItem<String>(
                       value: entry.key,
+
+                      onTap: () {
+                        if (languageSelection.sourceLanguage == entry.key) {
+                          return null;
+                        }
+                      },
+                      enabled: languageSelection.sourceLanguage !=
+                          entry.key, // Enable tapping on all items
                       child: Text(
                         entry.value,
                         style: TextStyle(
                           fontSize: 18.0,
-                          color:
-                              _sourceLanguage == entry.key ? Colors.grey : null,
+                          color: languageSelection.sourceLanguage == entry.key
+                              ? Colors.grey
+                              : null,
                         ),
                       ),
-                      onTap: () {
-                        if (_sourceLanguage == entry.key) {
-                          return null;
-                        }
-                      },
-                      enabled: _sourceLanguage !=
-                          entry.key, // Enable tapping on all items
                     );
                   }).toList(),
                 ),
