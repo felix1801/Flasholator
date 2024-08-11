@@ -124,9 +124,37 @@ class _TranslateTabState extends State<TranslateTab> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  LANGUAGES[_sourceLanguage]!,
-                  style: const TextStyle(fontSize: 18.0),
+                DropdownButton<String>(
+                  value: _sourceLanguage,
+                  onChanged: (String? newValue) {
+                    if (newValue != _targetLanguage) {
+                      setState(() {
+                        _sourceLanguage = newValue!;
+                      });
+                    }
+                  },
+                  items:
+                      LANGUAGES.entries.map((MapEntry<String, String> entry) {
+                    return DropdownMenuItem<String>(
+                      value: entry.key,
+                      child: Text(
+                        entry.value,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color:
+                              _targetLanguage == entry.key ? Colors.grey : null,
+                        ),
+                      ),
+                      onTap: () {
+                        if (_targetLanguage == entry.key) {
+                          return null;
+                        }
+                      },
+                      enabled: _targetLanguage !=
+                          entry
+                              .key, // Disable tapping on the item if it's the target language
+                    );
+                  }).toList(),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -136,9 +164,36 @@ class _TranslateTabState extends State<TranslateTab> {
                   },
                   child: const Icon(Icons.swap_horiz),
                 ),
-                Text(
-                  LANGUAGES[_targetLanguage]!,
-                  style: const TextStyle(fontSize: 18.0),
+                DropdownButton<String>(
+                  value: _targetLanguage,
+                  onChanged: (String? newValue) {
+                    if (newValue != _sourceLanguage) {
+                      setState(() {
+                        _targetLanguage = newValue!;
+                      });
+                    }
+                  },
+                  items:
+                      LANGUAGES.entries.map((MapEntry<String, String> entry) {
+                    return DropdownMenuItem<String>(
+                      value: entry.key,
+                      child: Text(
+                        entry.value,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color:
+                              _sourceLanguage == entry.key ? Colors.grey : null,
+                        ),
+                      ),
+                      onTap: () {
+                        if (_sourceLanguage == entry.key) {
+                          return null;
+                        }
+                      },
+                      enabled: _sourceLanguage !=
+                          entry.key, // Enable tapping on all items
+                    );
+                  }).toList(),
                 ),
               ],
             ),
