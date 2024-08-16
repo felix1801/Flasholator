@@ -209,55 +209,46 @@ class DataTableTabState extends State<DataTableTab> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: DataTable(
-                        headingRowHeight: kMinInteractiveDimension,
-                        columns: [
-                          DataColumn(
-                            label: SizedBox(
-                              width: constraints.maxWidth * 0.35,
-                              child: Text(LANGUAGES[TARGET_LANGUAGE]!),
-                            ),
-                          ),
-                          DataColumn(
-                            label: SizedBox(
-                              width: constraints.maxWidth * 0.35,
-                              child: Text(LANGUAGES[SOURCE_LANGUAGE]!),
-                            ),
-                          ),
-                        ],
-                        rows: data.map((rowData) {
-                          return DataRow(cells: [
-                            DataCell(GestureDetector(
-                                onTap: () {
-                                  _openEditPopup(rowData, 'front');
-                                },
-                                child: Text(rowData['front']))),
-                            DataCell(GestureDetector(
-                                onTap: () {
-                                  _openEditPopup(rowData, 'back');
-                                },
-                                child: Text(rowData['back']))),
-                          ]);
-                        }).toList(),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: DataTable(
+                  headingRowHeight: kMinInteractiveDimension,
+                  columns: [
+                    DataColumn(
+                      label: SizedBox(
+                        width: constraints.maxWidth * 0.35,
+                        child: Text(LANGUAGES[TARGET_LANGUAGE]!),
                       ),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ElevatedButton(
-                      onPressed: _openAddPopup,
-                      child: Text('Ajouter un mot'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 50),
+                    DataColumn(
+                      label: SizedBox(
+                        width: constraints.maxWidth * 0.35,
+                        child: Text(LANGUAGES[SOURCE_LANGUAGE]!),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                  rows: data.map((rowData) {
+                    return DataRow(cells: [
+                      DataCell(GestureDetector(
+                          onTap: () {
+                            _openEditPopup(rowData, 'front');
+                          },
+                          child: Text(rowData['front']))),
+                      DataCell(GestureDetector(
+                          onTap: () {
+                            _openEditPopup(rowData, 'back');
+                          },
+                          child: Text(rowData['back']))),
+                    ]);
+                  }).toList(),
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _openAddPopup,
+              child: Text('Ajouter un mot'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 50),
               ),
             ),
           ],
