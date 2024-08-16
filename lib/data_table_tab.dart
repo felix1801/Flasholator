@@ -21,6 +21,7 @@ class DataTableTab extends StatefulWidget {
 
 class DataTableTabState extends State<DataTableTab> {
   List<Map<dynamic, dynamic>> data = [];
+  LanguageSelection languageSelection = LanguageSelection.getInstance();
 
   @override
   void initState() {
@@ -39,14 +40,9 @@ class DataTableTabState extends State<DataTableTab> {
     });
   }
 
-  LanguageSelection languageSelection = LanguageSelection.getInstance();
-
-  // Rest of the code...
-
   void addRow(Map<dynamic, dynamic> row) {
     setState(() {
-      // data.insert(data.length - 10, row); // old version
-      data.add(row); // new version
+      data.add(row);
     });
   }
 
@@ -63,7 +59,7 @@ class DataTableTabState extends State<DataTableTab> {
     final newFront = key == 'front' ? newText : row['front'];
     final newBack = key == 'back' ? newText : row['back'];
 
-    if (data.indexOf(row) != -1 && newText != null) {
+    if (data.contains(row) && newText != null) {
       widget.flashcardsCollection.editFlashcard(front, back, newFront, newBack);
       setState(() {
         row[key] = newText;
@@ -203,7 +199,6 @@ class DataTableTabState extends State<DataTableTab> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-      double scaffoldHeight = constraints.maxHeight;
       return Scaffold(
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -246,10 +241,10 @@ class DataTableTabState extends State<DataTableTab> {
             ),
             ElevatedButton(
               onPressed: _openAddPopup,
-              child: Text('Ajouter un mot'),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
+                minimumSize: const Size(double.infinity, 50),
               ),
+              child: const Text('Ajouter un mot'),
             ),
           ],
         ),
