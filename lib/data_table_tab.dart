@@ -34,8 +34,9 @@ class DataTableTabState extends State<DataTableTab> {
         await widget.flashcardsCollection.loadData();
     setState(() {
       data = fetchedData
-          .where(
-              (row) => (row['sourceLang']) == languageSelection.targetLanguage)
+          .where((row) =>
+              row['sourceLang'] == languageSelection.sourceLanguage &&
+              row['targetLang'] == languageSelection.targetLanguage)
           .toList();
     });
   }
@@ -122,7 +123,7 @@ class DataTableTabState extends State<DataTableTab> {
             children: [
               Row(
                 children: [
-                  Text(LANGUAGES[SOURCE_LANGUAGE]!),
+                  Text(LANGUAGES[languageSelection.sourceLanguage]!),
                   Expanded(
                     child: TextField(
                       onChanged: (String value) {
@@ -134,7 +135,7 @@ class DataTableTabState extends State<DataTableTab> {
               ),
               Row(
                 children: [
-                  Text(LANGUAGES[TARGET_LANGUAGE]!),
+                  Text(LANGUAGES[languageSelection.targetLanguage]!),
                   Expanded(
                     child: TextField(
                       onChanged: (String value) {
@@ -212,13 +213,15 @@ class DataTableTabState extends State<DataTableTab> {
                     DataColumn(
                       label: SizedBox(
                         width: constraints.maxWidth * 0.35,
-                        child: Text(LANGUAGES[TARGET_LANGUAGE]!),
+                        child:
+                            Text(LANGUAGES[languageSelection.sourceLanguage]!),
                       ),
                     ),
                     DataColumn(
                       label: SizedBox(
                         width: constraints.maxWidth * 0.35,
-                        child: Text(LANGUAGES[SOURCE_LANGUAGE]!),
+                        child:
+                            Text(LANGUAGES[languageSelection.targetLanguage]!),
                       ),
                     ),
                   ],
