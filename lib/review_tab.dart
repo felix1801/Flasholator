@@ -43,15 +43,33 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
         await widget.flashcardsCollection.dueFlashcards();
 
     if (dueFlashcards.isNotEmpty) {
-      _currentFlashcard = dueFlashcards[0];
-      setState(() {
-        _questionText = _currentFlashcard.front;
-        _questionLang = _currentFlashcard.sourceLang;
-        isResponseHidden = true;
-        isDue = true;
-        _responseText = _currentFlashcard.back;
-        _responseLang = _currentFlashcard.targetLang;
-      });
+      // Filter dueFlashcards based on languageSelection
+      dueFlashcards = dueFlashcards
+          .where((flashcard) =>
+              (flashcard.sourceLang == languageSelection.sourceLanguage &&
+              flashcard.targetLang == languageSelection.targetLanguage) ||
+              (flashcard.sourceLang == languageSelection.targetLanguage &&
+              flashcard.targetLang == languageSelection.sourceLanguage))
+          .toList();
+
+      if (dueFlashcards.isNotEmpty) {
+        _currentFlashcard = dueFlashcards[0];
+        setState(() {
+          _questionText = _currentFlashcard.front;
+          _questionLang = _currentFlashcard.sourceLang;
+          isResponseHidden = true;
+          isDue = true;
+          _responseText = _currentFlashcard.back;
+          _responseLang = _currentFlashcard.targetLang;
+        });
+      } else {
+        setState(() {
+          _questionText = "Pas de carte à réviser aujourd'hui";
+          _questionLang = "";
+          isResponseHidden = true;
+          isDue = false;
+        });
+      }
     } else {
       setState(() {
         _questionText = "Pas de carte à réviser aujourd'hui";
