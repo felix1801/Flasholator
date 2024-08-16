@@ -117,13 +117,16 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                 const SizedBox(height: 16.0),
                 Row(
                   children: [
-                    Text(
-                      _responseLang,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Arial',
-                        color: Color.fromARGB(255, 238, 220, 245),
+                    Visibility(
+                      visible: isDue,
+                      child: Text(
+                        _responseLang,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Arial',
+                          color: Color.fromARGB(255, 238, 220, 245),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8.0),
