@@ -30,6 +30,7 @@ class _TranslateTabState extends State<TranslateTab> {
   final languageSelection = LanguageSelection();
   String _wordToTranslate = '';
   String _translatedWord = '';
+  final TextEditingController _controller = TextEditingController();
   bool isTranslateButtonDisabled = false;
   bool isAddButtonDisabled = true;
 
@@ -203,22 +204,39 @@ class _TranslateTabState extends State<TranslateTab> {
                 ),
               ],
             ),
-            const SizedBox(height: 16.0),
-            TextField(
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                hintText: 'Écrivez ou collez votre texte ici pour le traduire',
-                border: OutlineInputBorder(),
-                counterText: "",
-              ),
-              maxLength: 100,
-              onChanged: (value) {
-                setState(() {
-                  _wordToTranslate = value;
-                });
-              },
+            Stack(
+              alignment: Alignment.centerRight,
+              children: [
+                TextField(
+                  textAlign: TextAlign.center,
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    hintText:
+                        'Écrivez ou collez votre texte ici pour le traduire',
+                    border: OutlineInputBorder(),
+                    counterText: "",
+                  ),
+                  maxLength: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      _wordToTranslate = value;
+                    });
+                  },
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _controller.clear();
+                      _wordToTranslate = '';
+                      _translatedWord = '';
+                      isTranslateButtonDisabled = false;
+                      isAddButtonDisabled = true;
+                    });
+                  },
+                  icon: Icon(Icons.clear),
+                ),
+              ],
             ),
-            const SizedBox(height: 16.0),
             Text(
               _translatedWord,
               style: const TextStyle(fontSize: 18.0),
