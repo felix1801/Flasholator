@@ -30,9 +30,30 @@ class _TranslateTabState extends State<TranslateTab> {
   final languageSelection = LanguageSelection();
   String _wordToTranslate = '';
   String _translatedWord = '';
-  final TextEditingController _controller = TextEditingController();
-  bool isTranslateButtonDisabled = false;
+  bool isTranslateButtonDisabled = true;
   bool isAddButtonDisabled = true;
+  String _lastTranslatedWord = '';
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_updateButtonState);
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_updateButtonState);
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      isTranslateButtonDisabled =
+          _controller.text.isEmpty || _controller.text == _lastTranslatedWord;
+    });
+  }
 
   void _swapContent() {
     setState(() {
@@ -52,14 +73,16 @@ class _TranslateTabState extends State<TranslateTab> {
         languageSelection.targetLanguage,
         languageSelection.sourceLanguage,
       );
-      isTranslateButtonDisabled = false;
-      isAddButtonDisabled = false;
-
       setState(() {
         _translatedWord = translation;
+        _lastTranslatedWord = _wordToTranslate;
+        isAddButtonDisabled = false;
+        isTranslateButtonDisabled = true;
       });
     } catch (e) {
       print('Error translating text: $e');
+    } finally {
+      _updateButtonState();
     }
   }
 
@@ -229,7 +252,8 @@ class _TranslateTabState extends State<TranslateTab> {
                       _controller.clear();
                       _wordToTranslate = '';
                       _translatedWord = '';
-                      isTranslateButtonDisabled = false;
+                      _lastTranslatedWord = '';
+                      isTranslateButtonDisabled = true;
                       isAddButtonDisabled = true;
                     });
                   },
