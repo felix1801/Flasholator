@@ -29,7 +29,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Archive Android APK
-        if: success()
+        if: success()  # Exécuter cette étape seulement si la construction Android réussit
         uses: actions/upload-artifact@v3
         with:
           name: android-release-apk
@@ -55,3 +55,10 @@ jobs:
 
       - name: Build iOS
         run: flutter build ios --release --no-codesign
+
+      - name: Archive iOS IPA
+        if: success()  # Exécuter cette étape seulement si la construction iOS réussit
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-release-ipa
+          path: build/ios/iphoneos/Runner.app
