@@ -1,42 +1,57 @@
-name: iOS-ipa-build
+name: Build Flutter App
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Déclenchement manuel du workflow
+    inputs:
+      build:
+        description: 'Trigger build manually'
+        required: true
+        default: 'true'
 
 jobs:
-  build-ios:
-    name: 🎉 iOS Build
+  build:
     runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - uses: subosito/flutter-action@v2
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-          architecture: x64
-      - run: flutter pub get
-      
+          flutter-version: '3.10.5'  # Assurez-vous de choisir la version appropriée
 
-      - run: pod repo update
-        working-directory: ios
+      - name: Install dependencies
+        run: flutter pub get
 
-      - run: flutter build ios --release --no-codesign
+      # Compilation Android
+      - name: Build Android
+        run: flutter build apk --release
 
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
-
-      - run: mv Flasholator.app/ Payload
-        working-directory: build/ios/iphoneos
-
-      - name: Zip output
-        run: zip -qq -r -9 Flasholator.ipa Payload
-        working-directory: build/ios/iphoneos
-
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
+      - name: Archive Android APK
+        if: success()
+        uses: actions/upload-artifact@v3
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/ios/iphoneos/Flasholator.ipa
-          tag: v0.1
-          overwrite: true
-          body: "This is first release"
+          name: android-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      # Compilation iOS
+      - name: Install CocoaPods
+        run: |
+          brew install cocoapods
+          pod setup
+
+      - name: Prepare for iOS build
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp provisioning/App.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          security create-keychain -p "" build.keychain
+          security import certs/apple.cer -k build.keychain -T /usr/bin/codesign
+          security import certs/apple.p12 -k build.keychain -P "${{ secrets.APPLE_KEY_PASSWORD }}" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security set-keychain-settings -t 3600 -u build.keychain
+
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
