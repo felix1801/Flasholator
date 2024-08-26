@@ -1,13 +1,37 @@
 // constants.dart
-const String SOURCE_LANGUAGE = 'FR';
-const String TARGET_LANGUAGE = 'EN';
+const String INITIAL_SOURCE_LANGUAGE = 'FR';
+const String INITIAL_TARGET_LANGUAGE = 'EN';
 
 const Map<String, String> LANGUAGES = {
+  'BG': 'Bulgare',
+  'CS': 'Tchèque',
+  'DA': 'Danois',
+  'DE': 'Allemand',
+  'EL': 'Grec',
+  'EN-GB': 'Anglais (Britannique)',
+  'EN': 'Anglais (Américain)',
+  'ES': 'Espagnol',
+  'ET': 'Estonien',
+  'FI': 'Finnois',
   'FR': 'Français',
-  'ES': 'Español',
-  'EN': 'English',
-  'IT': 'Italiano',
-  'DE': 'Deutsch',
-  'PT': 'Português',
-  // Add more languages as needed
+  'HU': 'Hongrois',
+  'ID': 'Indonésien',
+  'IT': 'Italien',
+  'JA': 'Japonais',
+  'KO': 'Coréen',
+  'LT': 'Lituanien',
+  'LV': 'Letton',
+  'NB': 'Norvégien (Bokmål)',
+  'NL': 'Néerlandais',
+  'PL': 'Polonais',
+  'PT-BR': 'Portugais (Brésilien)',
+  'PT-PT': 'Portugais (European)',
+  'RO': 'Roumain',
+  'RU': 'Russe',
+  'SK': 'Slovaque',
+  'SL': 'Slovène',
+  'SV': 'Suédois',
+  'TR': 'Turc',
+  'UK': 'Ukrainien',
+  'ZH': 'Chinois (simplifié)',
 };

@@ -33,6 +33,9 @@ class _TranslateTabState extends State<TranslateTab> {
   bool isTranslateButtonDisabled = true;
   bool isAddButtonDisabled = true;
   String _lastTranslatedWord = '';
+  String _sourceLanguage = '';
+  String _targetLanguage = '';
+
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -52,6 +55,16 @@ class _TranslateTabState extends State<TranslateTab> {
     setState(() {
       isTranslateButtonDisabled =
           _controller.text.isEmpty || _controller.text == _lastTranslatedWord;
+    });
+  }
+
+  void _onLanguageChange(String newValue) {
+    setState(() {
+      _translatedWord = '';
+      _lastTranslatedWord = '';
+      isAddButtonDisabled = true;
+      _updateButtonState();
+      languageSelection.targetLanguage = newValue;
     });
   }
 
@@ -76,6 +89,8 @@ class _TranslateTabState extends State<TranslateTab> {
       setState(() {
         _translatedWord = translation;
         _lastTranslatedWord = _wordToTranslate;
+        _sourceLanguage = languageSelection.sourceLanguage;
+        _targetLanguage = languageSelection.targetLanguage;
         isAddButtonDisabled = false;
         isTranslateButtonDisabled = true;
       });
@@ -100,14 +115,11 @@ class _TranslateTabState extends State<TranslateTab> {
       widget.addRow({
         'front': _wordToTranslate,
         'back': _translatedWord,
-        'sourceLang': languageSelection.sourceLanguage,
-        'targetLang': languageSelection.targetLanguage,
+        'sourceLang': _sourceLanguage,
+        'targetLang': _targetLanguage,
       });
       widget.flashcardsCollection.addFlashcard(
-          _wordToTranslate,
-          _translatedWord,
-          languageSelection.sourceLanguage,
-          languageSelection.targetLanguage);
+          _wordToTranslate, _translatedWord, _sourceLanguage, _targetLanguage);
 
       widget.updateQuestionText();
       setState(() {});
@@ -165,8 +177,12 @@ class _TranslateTabState extends State<TranslateTab> {
                     return DropdownMenuItem<String>(
                       value: entry.key,
                       onTap: () {
-                        if (languageSelection.targetLanguage == entry.key) {
-                          return null;
+                        if (languageSelection.sourceLanguage == entry.key) {
+                          return;
+                        } else if (languageSelection.sourceLanguage !=
+                                entry.key ||
+                            languageSelection.targetLanguage != entry.key) {
+                          _onLanguageChange(entry.key);
                         }
                       },
                       enabled: languageSelection.targetLanguage !=
@@ -207,8 +223,12 @@ class _TranslateTabState extends State<TranslateTab> {
                       value: entry.key,
 
                       onTap: () {
-                        if (languageSelection.sourceLanguage == entry.key) {
-                          return null;
+                        if (languageSelection.targetLanguage == entry.key) {
+                          return;
+                        } else if (languageSelection.targetLanguage !=
+                                entry.key ||
+                            languageSelection.sourceLanguage != entry.key) {
+                          _onLanguageChange(entry.key);
                         }
                       },
                       enabled: languageSelection.sourceLanguage !=

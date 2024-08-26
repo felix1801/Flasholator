@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
 import 'language_selection.dart';
 import 'constants.dart';
-import 'language_selection.dart';
 
 class DataTableTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
@@ -104,8 +103,8 @@ class DataTableTabState extends State<DataTableTab> {
   }
 
   void _addFlashcard(String front, String back) {
-    widget.flashcardsCollection
-        .addFlashcard(front, back, SOURCE_LANGUAGE, TARGET_LANGUAGE);
+    widget.flashcardsCollection.addFlashcard(front, back,
+        languageSelection.sourceLanguage, languageSelection.targetLanguage);
     addRow({'front': front, 'back': back});
   }
 
