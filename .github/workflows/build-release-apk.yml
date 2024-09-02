@@ -1,4 +1,4 @@
-name: Flutter Build and Upload APK test
+name: Flutter Build and Release APK
 
 on:
   workflow_dispatch:
@@ -32,16 +32,6 @@ jobs:
       run: |
         echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
     
-    - name: Build AAB
-      env:
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-      run: |
-        flutter build appbundle --release \
-          --build-number=${{ github.run_number }} \
-          --build-name=0.2.${{ github.run_number }}
-        
     - name: Build APK
       env:
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -55,8 +45,8 @@ jobs:
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/app/outputs/flutter-apk/*.apk,build/app/outputs/bundle/release/app-release.aab"
+        artifacts: "build/app/outputs/flutter-apk/*.apk"
         tag: v0.2.${{ github.run_number }}
         name: Release v0.2.${{ github.run_number }}
-        body: New release for version 1.0.${{ github.run_number }}
+        body: New release for version 0.2.${{ github.run_number }}
         token: ${{ secrets.GITHUB_TOKEN }}
