@@ -40,13 +40,7 @@ jobs:
         flutter build appbundle --release \
           --build-number=${{ github.run_number }} \
           --build-name=0.2.${{ github.run_number }}
-    
-    # - name: Upload AAB
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: release-aab
-    #     path: build/app/outputs/bundle/release/app-release.aab
-    
+        
     - name: Build APK
       env:
         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -57,10 +51,6 @@ jobs:
           --build-number=${{ github.run_number }} \
           --build-name=0.2.${{ github.run_number }}
 
-    - name: List build outputs
-      run: |
-        ls -R build/app/outputs/
-    
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
