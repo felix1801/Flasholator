@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'flashcard.dart';
+import 'package:sqflite/sqflite.dart';
 
 class FlashcardsCollection {
   static const String _dbName = 'flashcards.db';
@@ -17,25 +18,28 @@ class FlashcardsCollection {
 
   Future<void> _initDatabase() async {
     // Initialize the database
-    sqfliteFfiInit(); // Initialize the ffi loader, essential ?
-    databaseFactory =
-        databaseFactoryFfi; // Set the database factory to ffi, essential ?
-
-    String dbPath;
-    if (Platform.isLinux) {
-      dbPath = _dbName;
+if (Platform.isAndroid || Platform.isIOS) {
+      // Use the default SQLite implementation for mobile platforms
+      String dbPath = join((await getApplicationDocumentsDirectory()).path, _dbName);
+      _database = await openDatabase(
+        dbPath,
+        version: _dbVersion,
+        onCreate: _createDatabase,
+      );
     } else {
-      final appDocDir = await getApplicationDocumentsDirectory();
-      dbPath = join(appDocDir.path, _dbName);
+      // Use FFI for desktop platforms
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+      String dbPath = Platform.isLinux ? _dbName : join((await getApplicationDocumentsDirectory()).path, _dbName);
+      _database = await databaseFactoryFfi.openDatabase(
+        dbPath,
+        options: OpenDatabaseOptions(
+          version: _dbVersion,
+          onCreate: _createDatabase,
+        ),
+      );
     }
-    print(dbPath); // Print the path of the database (for debugging purposes
-    // Open the database
-    _database = await openDatabase(
-      dbPath,
-      version: _dbVersion,
-      onCreate: _createDatabase,
-    );
-  }
+    print('Database initialized at: ${_database.path}');  }
 
   Future<void> _createDatabase(Database db, int version) async {
     // Create the database if it doesn't exist
