@@ -3,6 +3,10 @@ name: Flutter Build and Upload APK test
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -52,6 +56,10 @@ jobs:
         flutter build apk --release --split-per-abi \
           --build-number=${{ github.run_number }} \
           --build-name=0.2.${{ github.run_number }}
+
+    - name: List build outputs
+      run: |
+        ls -R build/app/outputs/
     
     - name: Create Release
       uses: ncipollo/release-action@v1
