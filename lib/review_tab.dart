@@ -47,9 +47,9 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
       dueFlashcards = dueFlashcards
           .where((flashcard) =>
               (flashcard.sourceLang == languageSelection.sourceLanguage &&
-              flashcard.targetLang == languageSelection.targetLanguage) ||
+                  flashcard.targetLang == languageSelection.targetLanguage) ||
               (flashcard.sourceLang == languageSelection.targetLanguage &&
-              flashcard.targetLang == languageSelection.sourceLanguage))
+                  flashcard.targetLang == languageSelection.sourceLanguage))
           .toList();
 
       if (dueFlashcards.isNotEmpty) {
@@ -194,7 +194,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                         maxLines: 1,
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.red, // Change the color here
+                        backgroundColor: Colors.red, // Change the color here
                       ),
                     ),
                   ),
@@ -211,7 +211,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                         maxLines: 1,
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.grey, // Change the color here
+                        backgroundColor: Colors.grey, // Change the color here
                       ),
                     ),
                   ),
@@ -228,7 +228,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                         maxLines: 1,
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.green, // Change the color here
+                        backgroundColor: Colors.green, // Change the color here
                       ),
                     ),
                   ),
@@ -245,7 +245,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                         maxLines: 1,
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue, // Change the color here
+                        backgroundColor: Colors.blue, // Change the color here
                       ),
                     ),
                   ),

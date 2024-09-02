@@ -144,9 +144,8 @@ class _HomePageState extends State<HomePage> {
               child: ElevatedButton(
                 onPressed: _launchEmail,
                 style: ElevatedButton.styleFrom(
-                  primary:
-                      Colors.orange, // Couleur vive pour attirer l'attention
-                  onPrimary: Colors.white, // Couleur du texte
+                  foregroundColor: Colors.white, // Couleur du texte
+                  backgroundColor: Colors.orange, // Couleur vive pour attirer l'attention
                   padding: EdgeInsets.symmetric(
                       horizontal: 16, vertical: 8), // Taille appropriée
                   shape: RoundedRectangleBorder(

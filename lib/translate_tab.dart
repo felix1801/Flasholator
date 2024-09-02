@@ -276,6 +276,7 @@ class _TranslateTabState extends State<TranslateTab> {
                       isTranslateButtonDisabled = true;
                       isAddButtonDisabled = true;
                     });
+                    _updateButtonState();
                   },
                   icon: Icon(Icons.clear),
                 ),
