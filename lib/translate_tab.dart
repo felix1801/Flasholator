@@ -259,7 +259,7 @@ class _TranslateTabState extends State<TranslateTab> {
               alignment: Alignment.centerRight,
               children: [
                 TextField(
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   controller: _controller,
                   decoration: const InputDecoration(
                     hintText:
@@ -292,6 +292,7 @@ class _TranslateTabState extends State<TranslateTab> {
             ),
             Text(
               _translatedWord,
+              textAlign: TextAlign.left,
               style: const TextStyle(fontSize: 18.0),
             ),
             Expanded(
