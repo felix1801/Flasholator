@@ -2,7 +2,6 @@
 import 'dart:io';
 
 import 'utils/deepl_translator.dart'; // version précédente
-import 'utils/server_connection.dart'; // version modifiée
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
 import 'translate_tab.dart';
@@ -14,13 +13,11 @@ import 'package:url_launcher/url_launcher.dart';
 class HomePage extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
   final DeeplTranslator deeplTranslator; // version précédente
-  final ServerConnection serverConnection; // version modifiée
 
   const HomePage({
     Key? key,
     required this.flashcardsCollection,
     required this.deeplTranslator, // version précédente
-    required this.serverConnection, // version modifiée
   }) : super(key: key);
 
   @override
@@ -170,7 +167,6 @@ class _HomePageState extends State<HomePage> {
             TranslateTab(
                 flashcardsCollection: widget.flashcardsCollection,
                 deeplTranslator: widget.deeplTranslator, // version précédente
-                serverConnection: widget.serverConnection, // version modifiée
                 addRow: dataTableTabFunction,
                 updateQuestionText: reviewTabFunction),
             ReviewTab(

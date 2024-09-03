@@ -1,8 +1,8 @@
 // DataTableTab widget
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
-import 'language_selection.dart';
-import 'constants.dart';
+import 'utils/language_selection.dart';
+import 'utils/constants.dart';
 
 class DataTableTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;

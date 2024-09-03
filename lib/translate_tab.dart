@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 import 'utils/flashcards_collection.dart';
 import 'utils/deepl_translator.dart'; // version traduction locale
-import 'utils/server_connection.dart'; // version traduction serveur
-import 'language_selection.dart';
-import 'constants.dart';
+import 'utils/language_selection.dart';
+import 'utils/constants.dart';
 
 class TranslateTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
   final DeeplTranslator deeplTranslator; // Version traduction locale
-  final ServerConnection serverConnection; // Version traduction serveur
   final Function(Map<dynamic, dynamic>) addRow;
   final Function() updateQuestionText;
 
@@ -17,7 +15,6 @@ class TranslateTab extends StatefulWidget {
     Key? key,
     required this.flashcardsCollection,
     required this.deeplTranslator, // Version traduction locale
-    required this.serverConnection, // Version traduction serveur
     required this.addRow,
     required this.updateQuestionText,
   }) : super(key: key);
@@ -64,7 +61,7 @@ class _TranslateTabState extends State<TranslateTab> {
       _lastTranslatedWord = '';
       isAddButtonDisabled = true;
       _updateButtonState();
-      languageSelection.targetLanguage = newValue;
+      // languageSelection.targetLanguage = newValue;
     });
   }
 
@@ -81,7 +78,6 @@ class _TranslateTabState extends State<TranslateTab> {
     try {
       String translation = await widget.deeplTranslator.translate(
         // Version traduction locale
-        // String translation = await widget.serverConnection.translate( // Version traduction serveur
         _wordToTranslate,
         languageSelection.targetLanguage,
         languageSelection.sourceLanguage,
@@ -161,89 +157,101 @@ class _TranslateTabState extends State<TranslateTab> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropdownButton<String>(
-                  value: languageSelection.sourceLanguage,
-                  onChanged: (String? newValue) {
-                    if (newValue != languageSelection.targetLanguage) {
-                      setState(() {
-                        languageSelection.sourceLanguage = newValue!;
-                      });
-                    }
-                  },
-                  items:
-                      LANGUAGES.entries.map((MapEntry<String, String> entry) {
-                    return DropdownMenuItem<String>(
-                      value: entry.key,
-                      onTap: () {
-                        if (languageSelection.sourceLanguage == entry.key) {
-                          return;
-                        } else if (languageSelection.sourceLanguage !=
-                                entry.key ||
-                            languageSelection.targetLanguage != entry.key) {
-                          _onLanguageChange(entry.key);
-                        }
-                      },
-                      enabled: languageSelection.targetLanguage !=
-                          entry
-                              .key, // Disable tapping on the item if it's the target language
-                      child: Text(
-                        entry.value,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: languageSelection.targetLanguage == entry.key
-                              ? Colors.grey
-                              : null,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      return DropdownButton<String>(
+                        value: languageSelection.sourceLanguage,
+                        onChanged: (String? newValue) {
+                          if (newValue != languageSelection.targetLanguage) {
+                            setState(() {
+                              languageSelection.sourceLanguage = newValue!;
+                            });
+                          }
+                        },
+                        isExpanded: true,
+                        isDense: true,
+                        items: LANGUAGES.entries.map((MapEntry<String, String> entry) {
+                          return DropdownMenuItem<String>(
+                            value: entry.key,
+                            onTap: () {
+                              if (languageSelection.sourceLanguage == entry.key) {
+                                return;
+                              } else if (languageSelection.sourceLanguage != entry.key ||
+                                  languageSelection.targetLanguage != entry.key) {
+                                _onLanguageChange(entry.key);
+                              }
+                            },
+                            enabled: languageSelection.targetLanguage != entry.key,
+                            child: Text(
+                              entry.value,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: languageSelection.targetLanguage == entry.key
+                                    ? Colors.grey
+                                    : null,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      _swapContent();
-                    });
-                  },
-                  child: const Icon(Icons.swap_horiz),
-                ),
-                DropdownButton<String>(
-                  value: languageSelection.targetLanguage,
-                  onChanged: (String? newValue) {
-                    if (newValue != languageSelection.sourceLanguage) {
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
                       setState(() {
-                        languageSelection.targetLanguage = newValue!;
+                        _swapContent();
                       });
-                    }
-                  },
-                  items:
-                      LANGUAGES.entries.map((MapEntry<String, String> entry) {
-                    return DropdownMenuItem<String>(
-                      value: entry.key,
-
-                      onTap: () {
-                        if (languageSelection.targetLanguage == entry.key) {
-                          return;
-                        } else if (languageSelection.targetLanguage !=
-                                entry.key ||
-                            languageSelection.sourceLanguage != entry.key) {
-                          _onLanguageChange(entry.key);
-                        }
-                      },
-                      enabled: languageSelection.sourceLanguage !=
-                          entry.key, // Enable tapping on all items
-                      child: Text(
-                        entry.value,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: languageSelection.sourceLanguage == entry.key
-                              ? Colors.grey
-                              : null,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                    },
+                    child: const Icon(Icons.swap_horiz),
+                  ),
+                ),
+                Expanded(
+                  child: LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      return DropdownButton<String>(
+                        value: languageSelection.targetLanguage,
+                        onChanged: (String? newValue) {
+                          if (newValue != languageSelection.sourceLanguage) {
+                            setState(() {
+                              languageSelection.targetLanguage = newValue!;
+                            });
+                          }
+                        },
+                        isExpanded: true,
+                        isDense: true,
+                        items: LANGUAGES.entries.map((MapEntry<String, String> entry) {
+                          return DropdownMenuItem<String>(
+                            value: entry.key,
+                            onTap: () {
+                              if (languageSelection.targetLanguage == entry.key) {
+                                return;
+                              } else if (languageSelection.targetLanguage != entry.key ||
+                                  languageSelection.sourceLanguage != entry.key) {
+                                _onLanguageChange(entry.key);
+                              }
+                            },
+                            enabled: languageSelection.sourceLanguage != entry.key,
+                            child: Text(
+                              entry.value,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: languageSelection.sourceLanguage == entry.key
+                                    ? Colors.grey
+                                    : null,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

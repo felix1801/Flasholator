@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'utils/flashcards_collection.dart';
 import 'utils/deepl_translator.dart'; // version précédente
-import 'utils/server_connection.dart'; // version modifiée
 import 'package:flutter/widgets.dart';
 
 
@@ -17,7 +16,6 @@ class MyApp extends StatelessWidget {
 
   final flashcardsCollection = FlashcardsCollection(); // Create an instance of FlashcardDao
   final deeplTranslator = DeeplTranslator(); // Create an instance of DeeplTranslator // version précédente
-  final serverConnection = ServerConnection(); // Create an instance of ServerConnection // version modifiée
 
   // This widget is the root of your application.
   @override
@@ -31,7 +29,6 @@ class MyApp extends StatelessWidget {
       home: HomePage(
           flashcardsCollection: flashcardsCollection,
           deeplTranslator: deeplTranslator, // version précédente
-          serverConnection: serverConnection // version modifiée
           ),
     );
   }
