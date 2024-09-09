@@ -1,0 +1,30 @@
+name: Deploy AAB on playstore
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Download release AAB
+      uses: actions/download-artifact@v4
+      with:
+        name: release-aab
+        path: app-release.aab
+
+    - name: Deploy to Google Play
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        packageName: com.felinx18.flasholator
+        releaseFiles: app-release.aab
+        track: Alpha
+        status: completed
