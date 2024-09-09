@@ -17,7 +17,7 @@ jobs:
     - name: Download release AAB
       uses: actions/download-artifact@v4
       with:
-        name: release-aab
+        name: Release v0.2.1
         path: app-release.aab
 
     - name: Deploy to Google Play
