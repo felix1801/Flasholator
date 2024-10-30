@@ -290,10 +290,14 @@ class _TranslateTabState extends State<TranslateTab> {
                 ),
               ],
             ),
-            Text(
-              _translatedWord,
-              textAlign: TextAlign.left,
-              style: const TextStyle(fontSize: 18.0),
+            Align(
+              alignment: Alignment.centerLeft,  // Align text to the left
+              child: 
+              Text(
+                _translatedWord,
+                textAlign: TextAlign.left,
+                style: const TextStyle(fontSize: 18.0),
+              ),
             ),
             Expanded(
               child: Container(),
@@ -312,10 +316,11 @@ class _TranslateTabState extends State<TranslateTab> {
                 )),
                 const SizedBox(width: 16.0),
                 Expanded(
-                    child: ElevatedButton(
-                  onPressed: isAddButtonDisabled ? null : _addFlashcard,
-                  child: const Text('Ajouter'),
-                )),
+                  child: ElevatedButton(
+                    onPressed: isAddButtonDisabled ? null : _addFlashcard,
+                    child: const Text('Ajouter'),
+                  )
+                ),
               ],
             ),
           ],
