@@ -23,15 +23,32 @@ Avec Flasholator, vous pouvez traduire les mots que vous ne connaissez pas et le
 __[Ajouter captures d'écran et tuto]__
 
 ## Roadmap :
-- Révision de toutes les langues en même temps
+### Fonctionnalités :
+- Révision de toutes les langues en même temps en actionnant un bouton 
 - Changement vers l'API DeepL extension
 - Statistiques de traduction et de révision
 - Choix de la langue de l'interface utilisateur
-- Choix du couple de langue par défaut
+- Choix du couple de langue au démarrage 
 - (Ajout des publicités)
 - Ajout de la prononciation de la traduction
 - Ajout d'une option Android native pour traduire avec Flasholator et ajouter une carte depuis une autre appliation lorsqu'un texte est sélectionné
 - Ajout de notifications de rappel quand il y a des cartes à réviser
+- Permettre à l'utilisateur d'écrire le mot révisé pour le vérifier si nécessaire.
+- Modifier un couple de mots enregistrés au lieu d'un mot unique.
+- Offrir un choix entre plusieurs résultats lors de la traduction.
+- Ajouter une ou deux langues supplémentaires avec des traductions ludiques (fun translator).
+- Créer des groupes de mots pour les révisions (ex. : vacances, bureau, cuisine).
+- Ajouter un bouton pour afficher toutes les langues dans la liste des mots enregistrés.
+- Gérer le  stockage :
+  - Sauvegarder les données directement sur le téléphone (comme WhatsApp).
+  - Possibilité d'exporter et d'importer la base de données.
+
+### Interface et expérience utilisateur :
+- Réduire au maximum le nombre de clics nécessaires pour utiliser l'application.
+- Utiliser des thèmes familiers aux utilisateurs, inspirés de Google, DeepL ou Duolingo.
+- Afficher les résultats de traduction dans un encart stylisé, plutôt que sur un fond blanc.
+- Ajouter une image dans l’onglet de révision pour inciter l’utilisateur à prononcer le mot (ex. : emoji qui pense ou parle).
+- Rendre le texte indicatif (hint) pour le mot à traduire moins visible, pour ne pas distraire l'utilisateur.
 
 ## Contribution
 
