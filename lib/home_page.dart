@@ -116,13 +116,6 @@ class _HomePageState extends State<HomePage> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.translate)),
-              Tab(icon: Icon(Icons.replay)),
-              Tab(icon: Icon(Icons.folder)),
-            ],
-          ),
           title: Row(
             children: [
               const Text('Flasholator'),
@@ -177,6 +170,13 @@ class _HomePageState extends State<HomePage> {
               key: dataTableTabKey,
               updateQuestionText: reviewTabFunction,
             )
+          ],
+        ),
+        bottomNavigationBar: const TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.translate)),
+            Tab(icon: Icon(Icons.replay)),
+            Tab(icon: Icon(Icons.folder)),
           ],
         ),
       ),
