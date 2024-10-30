@@ -50,6 +50,7 @@ dependencies:
   path_provider: ^2.1.4
   url_launcher: ^6.3.0
   url_launcher_ios: ^6.3.0
+  fluttertoast: ^8.2.8
 
   # Debug
   http_interceptor: ^2.0.0

@@ -4,6 +4,7 @@ import 'utils/flashcards_collection.dart';
 import 'utils/deepl_translator.dart'; // version traduction locale
 import 'utils/language_selection.dart';
 import 'utils/constants.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TranslateTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
@@ -119,34 +120,19 @@ class _TranslateTabState extends State<TranslateTab> {
 
       widget.updateQuestionText();
       setState(() {});
+
+      // Confirm that the card was added
+      Fluttertoast.showToast(
+        msg: "Carte ajoutée",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
     isAddButtonDisabled = true;
-  }
-
-  void _openPopup() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Êtes-vous sûr ?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _addFlashcard();
-                Navigator.of(context).pop();
-              },
-              child: const Text('Oui'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Non'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -160,7 +146,8 @@ class _TranslateTabState extends State<TranslateTab> {
               children: [
                 Expanded(
                   child: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
                       return DropdownButton<String>(
                         value: languageSelection.sourceLanguage,
                         onChanged: (String? newValue) {
@@ -172,24 +159,30 @@ class _TranslateTabState extends State<TranslateTab> {
                         },
                         isExpanded: true,
                         isDense: true,
-                        items: LANGUAGES.entries.map((MapEntry<String, String> entry) {
+                        items: LANGUAGES.entries
+                            .map((MapEntry<String, String> entry) {
                           return DropdownMenuItem<String>(
                             value: entry.key,
                             onTap: () {
-                              if (languageSelection.sourceLanguage == entry.key) {
+                              if (languageSelection.sourceLanguage ==
+                                  entry.key) {
                                 return;
-                              } else if (languageSelection.sourceLanguage != entry.key ||
-                                  languageSelection.targetLanguage != entry.key) {
+                              } else if (languageSelection.sourceLanguage !=
+                                      entry.key ||
+                                  languageSelection.targetLanguage !=
+                                      entry.key) {
                                 _onLanguageChange(entry.key);
                               }
                             },
-                            enabled: languageSelection.targetLanguage != entry.key,
+                            enabled:
+                                languageSelection.targetLanguage != entry.key,
                             child: Text(
                               entry.value,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: languageSelection.targetLanguage == entry.key
+                                color: languageSelection.targetLanguage ==
+                                        entry.key
                                     ? Colors.grey
                                     : null,
                               ),
@@ -213,7 +206,8 @@ class _TranslateTabState extends State<TranslateTab> {
                 ),
                 Expanded(
                   child: LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
                       return DropdownButton<String>(
                         value: languageSelection.targetLanguage,
                         onChanged: (String? newValue) {
@@ -225,24 +219,30 @@ class _TranslateTabState extends State<TranslateTab> {
                         },
                         isExpanded: true,
                         isDense: true,
-                        items: LANGUAGES.entries.map((MapEntry<String, String> entry) {
+                        items: LANGUAGES.entries
+                            .map((MapEntry<String, String> entry) {
                           return DropdownMenuItem<String>(
                             value: entry.key,
                             onTap: () {
-                              if (languageSelection.targetLanguage == entry.key) {
+                              if (languageSelection.targetLanguage ==
+                                  entry.key) {
                                 return;
-                              } else if (languageSelection.targetLanguage != entry.key ||
-                                  languageSelection.sourceLanguage != entry.key) {
+                              } else if (languageSelection.targetLanguage !=
+                                      entry.key ||
+                                  languageSelection.sourceLanguage !=
+                                      entry.key) {
                                 _onLanguageChange(entry.key);
                               }
                             },
-                            enabled: languageSelection.sourceLanguage != entry.key,
+                            enabled:
+                                languageSelection.sourceLanguage != entry.key,
                             child: Text(
                               entry.value,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 18.0,
-                                color: languageSelection.sourceLanguage == entry.key
+                                color: languageSelection.sourceLanguage ==
+                                        entry.key
                                     ? Colors.grey
                                     : null,
                               ),
@@ -313,7 +313,7 @@ class _TranslateTabState extends State<TranslateTab> {
                 const SizedBox(width: 16.0),
                 Expanded(
                     child: ElevatedButton(
-                  onPressed: isAddButtonDisabled ? null : _openPopup,
+                  onPressed: isAddButtonDisabled ? null : _addFlashcard,
                   child: const Text('Ajouter'),
                 )),
               ],
