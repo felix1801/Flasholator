@@ -1,4 +1,4 @@
-name: Flutter Build and Release AAB
+name: Build and Deploy AAB on Playstore
 
 on:
   workflow_dispatch:
