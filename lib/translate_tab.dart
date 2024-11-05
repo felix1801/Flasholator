@@ -261,11 +261,14 @@ class _TranslateTabState extends State<TranslateTab> {
                 TextField(
                   textAlign: TextAlign.left,
                   controller: _controller,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText:
                         'Écrivez ou collez votre texte ici pour le traduire',
                     border: OutlineInputBorder(),
                     counterText: "",
+                    hintStyle: TextStyle(
+                        color: Colors.grey.withOpacity(
+                            0.5)), // Set hint text color to be more transparent
                   ),
                   maxLength: 100,
                   onChanged: (value) {
@@ -291,9 +294,8 @@ class _TranslateTabState extends State<TranslateTab> {
               ],
             ),
             Align(
-              alignment: Alignment.centerLeft,  // Align text to the left
-              child: 
-              Text(
+              alignment: Alignment.centerLeft, // Align text to the left
+              child: Text(
                 _translatedWord,
                 textAlign: TextAlign.left,
                 style: const TextStyle(fontSize: 18.0),
@@ -316,11 +318,10 @@ class _TranslateTabState extends State<TranslateTab> {
                 )),
                 const SizedBox(width: 16.0),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: isAddButtonDisabled ? null : _addFlashcard,
-                    child: const Text('Ajouter'),
-                  )
-                ),
+                    child: ElevatedButton(
+                  onPressed: isAddButtonDisabled ? null : _addFlashcard,
+                  child: const Text('Ajouter'),
+                )),
               ],
             ),
           ],
