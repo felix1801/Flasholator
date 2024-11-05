@@ -83,6 +83,32 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  _launchEmail();
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, // Couleur du texte
+                  backgroundColor:
+                      Colors.orange, // Couleur vive pour attirer l'attention
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 8), // Taille appropriée
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(8), // Bordures arrondies
+                  ),
+                  elevation: 5, // Effet de relief
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.feedback, size: 18), // Icône pertinente
+                    SizedBox(width: 8), // Espace entre l'icône et le texte
+                    Text('Donner un feedback'), // Texte clair
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
                   Navigator.pushNamed(context, '/settings');
                 },
                 child: const Text('Langues'),
@@ -128,32 +154,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: _launchEmail,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, // Couleur du texte
-                  backgroundColor: Colors.orange, // Couleur vive pour attirer l'attention
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 8), // Taille appropriée
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(8), // Bordures arrondies
-                  ),
-                  elevation: 5, // Effet de relief
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.feedback, size: 18), // Icône pertinente
-                    SizedBox(width: 8), // Espace entre l'icône et le texte
-                    Text('Donner un feedback'), // Texte clair
-                  ],
-                ),
-              ),
-            ),
-          ],
         ),
         body: TabBarView(
           children: [
