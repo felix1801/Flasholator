@@ -72,7 +72,7 @@ if (Platform.isAndroid || Platform.isIOS) {
     return flashcards;
   }
 
-  Future<void> addFlashcard(
+  Future<bool> addFlashcard(
     String front,
     String back,
     String sourceLang,
@@ -82,7 +82,7 @@ if (Platform.isAndroid || Platform.isIOS) {
         front == '' ||
         back == '') {
       print('return');
-      return;
+      return false;
     }
 
     // Add a flashcard and its reversed to the database
@@ -102,6 +102,8 @@ if (Platform.isAndroid || Platform.isIOS) {
 
     await _database.insert(table, flashcard.toMap());
     await _database.insert(table, reversedFlashcard.toMap());
+
+    return true;
   }
 
   void removeFlashcard(String front, String back) async {

@@ -115,7 +115,7 @@ class _TranslateTabState extends State<TranslateTab> {
         'sourceLang': _sourceLanguage,
         'targetLang': _targetLanguage,
       });
-      widget.flashcardsCollection.addFlashcard(
+      Future<bool> isCardAdded = widget.flashcardsCollection.addFlashcard(
           _wordToTranslate, _translatedWord, _sourceLanguage, _targetLanguage);
 
       widget.updateQuestionText();
@@ -123,7 +123,7 @@ class _TranslateTabState extends State<TranslateTab> {
 
       // Confirm that the card was added
       Fluttertoast.showToast(
-        msg: "Carte ajoutée",
+        msg: await isCardAdded ? "Carte ajoutée" : "Carte déjà ajoutée",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
