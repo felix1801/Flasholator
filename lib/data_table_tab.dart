@@ -4,6 +4,7 @@ import 'utils/flashcards_collection.dart';
 import 'utils/language_selection.dart';
 import 'utils/constants.dart';
 
+// Add doc comments
 class DataTableTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
   final Function() updateQuestionText;
