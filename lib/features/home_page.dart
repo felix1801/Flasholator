@@ -1,12 +1,12 @@
 // HomePage widget with 3 tabs : Traduire, Réviser and Paquet
 import 'dart:io';
 
-import 'utils/deepl_translator.dart'; // version précédente
+import '../core/services/translator/deepl_translator.dart'; // version précédente
 import 'package:flutter/material.dart';
-import 'utils/flashcards_collection.dart';
-import 'translate_tab.dart';
-import 'review_tab.dart';
-import 'data_table_tab.dart';
+import '../core/services/flashcards/flashcards_collection.dart';
+import 'translation/translate_tab.dart';
+import 'review/review_tab.dart';
+import 'data/data_table_tab.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 

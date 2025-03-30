@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'utils/flashcards_collection.dart';
-import 'utils/deepl_translator.dart'; // version précédente
+import 'features/home_page.dart';
+import 'core/services/flashcards/flashcards_collection.dart';
+import 'core/services/translator/deepl_translator.dart'; // version précédente
 import 'package:flutter/widgets.dart';
 
 

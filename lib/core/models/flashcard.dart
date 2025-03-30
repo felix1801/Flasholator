@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'sm_two.dart';
+import '../services/review/sm_two.dart';
 
 class Flashcard {
   int? id;

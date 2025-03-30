@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'utils/flashcard.dart';
-import 'utils/flashcards_collection.dart';
-import 'utils/language_selection.dart';
+import '../../core/models/flashcard.dart';
+import '../../core/services/flashcards/flashcards_collection.dart';
+import '../shared/utils/language_selection.dart';
 
 class ReviewTab extends StatefulWidget {
   // The ReviewTab widget is a StatefulWidget because it needs to be able to update its state

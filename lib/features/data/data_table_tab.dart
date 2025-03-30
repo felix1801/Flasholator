@@ -1,8 +1,8 @@
 // DataTableTab widget
 import 'package:flutter/material.dart';
-import 'utils/flashcards_collection.dart';
-import 'utils/language_selection.dart';
-import 'utils/constants.dart';
+import '../../core/services/flashcards/flashcards_collection.dart';
+import '../shared/utils/language_selection.dart';
+import '../../config/constants.dart';
 
 // Add doc comments
 class DataTableTab extends StatefulWidget {

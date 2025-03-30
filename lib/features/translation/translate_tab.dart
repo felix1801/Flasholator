@@ -1,9 +1,9 @@
 // Translate tab widget with a language selector, a text field for the word to translate, a text label to display the translation and a button to translate the word.
 import 'package:flutter/material.dart';
-import 'utils/flashcards_collection.dart';
-import 'utils/deepl_translator.dart'; // version traduction locale
-import 'utils/language_selection.dart';
-import 'utils/constants.dart';
+import '../../core/services/flashcards/flashcards_collection.dart';
+import '../../core/services/translator/deepl_translator.dart'; // version traduction locale
+import '../shared/utils/language_selection.dart';
+import '../../config/constants.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class TranslateTab extends StatefulWidget {
