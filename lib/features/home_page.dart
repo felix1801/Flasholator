@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void reviewTabFunction() {
-    reviewTabKey.currentState?.updateQuestionText();
+    reviewTabKey.currentState?.updateQuestionText(isAllLanguagesToggledNotifier.value);
   }
 
   Future<void> requestPermissions() async {

@@ -38,7 +38,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
   void initState() {
     // The initState() method is called when the stateful widget is inserted into the widget tree
     super.initState();
-    updateQuestionText();
+    updateQuestionText(widget.isAllLanguagesToggledNotifier.value);
   }
 
   void updateSwitchState(bool newValue) {
@@ -47,13 +47,16 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
     });
   }
 
-  void updateQuestionText() async {
+  void updateQuestionText(bool isAllLanguagesToggledNotifier) async {
     // Get the due flashcards from the database and set the question text and translated text
     List<Flashcard> dueFlashcards =
         await widget.flashcardsCollection.dueFlashcards();
 
     if (dueFlashcards.isNotEmpty) {
       // Filter dueFlashcards based on languageSelection
+      if (isAllLanguagesToggledNotifier) {
+        dueFlashcards = dueFlashcards.toList();
+      } else {
       dueFlashcards = dueFlashcards
           .where((flashcard) =>
               (flashcard.sourceLang == languageSelection.sourceLanguage &&
@@ -61,6 +64,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
               (flashcard.sourceLang == languageSelection.targetLanguage &&
                   flashcard.targetLang == languageSelection.sourceLanguage))
           .toList();
+    }
 
       if (dueFlashcards.isNotEmpty) {
         _currentFlashcard = dueFlashcards[0];
@@ -101,7 +105,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
     // Update the flashcard with the quality in the database then update the question text
     await widget.flashcardsCollection
         .review(_currentFlashcard.front, _currentFlashcard.back, quality);
-    updateQuestionText();
+    updateQuestionText(widget.isAllLanguagesToggledNotifier.value);
   }
 
   @override
@@ -119,6 +123,7 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
                   value: value,
                   onChanged: (bool newValue) {
                     widget.isAllLanguagesToggledNotifier.value = newValue;
+                    updateQuestionText(widget.isAllLanguagesToggledNotifier.value);
                   },
                 );
               },
