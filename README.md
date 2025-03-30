@@ -26,7 +26,6 @@ __[Ajouter captures d'écran et tuto]__
 ### Fonctionnalités :
 - Révision de toutes les langues en même temps en actionnant un bouton 
 - Changement vers l'API DeepL extension
-- Annulation rapide d'un mot ajouté à l'instant 
 - Statistiques de traduction et de révision
 - Choix de la langue de l'interface utilisateur
 - Choix du couple de langue au démarrage 
