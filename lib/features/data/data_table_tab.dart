@@ -8,11 +8,14 @@ import '../../config/constants.dart';
 class DataTableTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
   final Function() updateQuestionText;
+  final ValueNotifier<bool> isAllLanguagesToggledNotifier;
+
 
   const DataTableTab({
     Key? key,
     required this.flashcardsCollection,
     required this.updateQuestionText,
+    required this.isAllLanguagesToggledNotifier,
   }) : super(key: key);
 
   @override
@@ -27,6 +30,12 @@ class DataTableTabState extends State<DataTableTab> {
   void initState() {
     super.initState();
     _fetchData();
+  }
+
+  void updateSwitchState(bool newValue) {
+    setState(() {
+      widget.isAllLanguagesToggledNotifier.value = newValue;
+    });
   }
 
   Future<void> _fetchData() async {
@@ -204,6 +213,17 @@ class DataTableTabState extends State<DataTableTab> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: widget.isAllLanguagesToggledNotifier,
+                builder: (context, value, child) {
+                  return Switch(
+                    value: value,
+                    onChanged: (bool newValue) {
+                      widget.isAllLanguagesToggledNotifier.value = newValue;
+                    },
+                  );
+                },
+              ),
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,

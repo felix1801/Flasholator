@@ -27,13 +27,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final dataTableTabKey = GlobalKey<DataTableTabState>();
   final reviewTabKey = GlobalKey<ReviewTabState>();
+  final ValueNotifier<bool> isAllLanguagesToggledNotifier = ValueNotifier<bool>(false);
+  late TabController _tabController;
+
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: Navigator.of(context));
+    _tabController.addListener(_onTabChange);
     if (Platform.isAndroid) {
       requestPermissions(); // Call the requestPermissions() method here
     }
+  }
+
+  @override
+  void dispose() {
+    _tabController.removeListener(_onTabChange);
+    _tabController.dispose();
+    isAllLanguagesToggledNotifier.dispose(); // Dispose du notifier
+    super.dispose();
+  }
+
+  void _onTabChange() {
+    if (_tabController.indexIsChanging) {
+      _synchronizeSwitchState();
+    }
+  }
+
+  void _synchronizeSwitchState() {
+    // Fonction appelée lors du changement d'onglet pour synchroniser l'état du switch
+    dataTableTabKey.currentState?.updateSwitchState(isAllLanguagesToggledNotifier.value);
+    reviewTabKey.currentState?.updateSwitchState(isAllLanguagesToggledNotifier.value);
   }
 
   void dataTableTabFunction(Map<dynamic, dynamic> row) {
@@ -161,14 +186,18 @@ class _HomePageState extends State<HomePage> {
                 flashcardsCollection: widget.flashcardsCollection,
                 deeplTranslator: widget.deeplTranslator, // version précédente
                 addRow: dataTableTabFunction,
-                updateQuestionText: reviewTabFunction),
+                updateQuestionText: reviewTabFunction,
+            ),
             ReviewTab(
                 flashcardsCollection: widget.flashcardsCollection,
-                key: reviewTabKey),
+                key: reviewTabKey,
+                isAllLanguagesToggledNotifier: isAllLanguagesToggledNotifier,
+            ),
             DataTableTab(
               flashcardsCollection: widget.flashcardsCollection,
               key: dataTableTabKey,
               updateQuestionText: reviewTabFunction,
+              isAllLanguagesToggledNotifier: isAllLanguagesToggledNotifier,
             )
           ],
         ),

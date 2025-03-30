@@ -6,9 +6,13 @@ import '../shared/utils/language_selection.dart';
 class ReviewTab extends StatefulWidget {
   // The ReviewTab widget is a StatefulWidget because it needs to be able to update its state
   final FlashcardsCollection flashcardsCollection;
+  final ValueNotifier<bool> isAllLanguagesToggledNotifier;
 
-  const ReviewTab({Key? key, required this.flashcardsCollection})
-      : super(key: key);
+  const ReviewTab({
+    Key? key, 
+    required this.flashcardsCollection,
+    required this.isAllLanguagesToggledNotifier,
+  }) : super(key: key);
 
   @override
   State<ReviewTab> createState() => ReviewTabState();
@@ -35,6 +39,12 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
     // The initState() method is called when the stateful widget is inserted into the widget tree
     super.initState();
     updateQuestionText();
+  }
+
+  void updateSwitchState(bool newValue) {
+    setState(() {
+      widget.isAllLanguagesToggledNotifier.value = newValue;
+    });
   }
 
   void updateQuestionText() async {
@@ -102,6 +112,17 @@ class ReviewTabState extends State<ReviewTab> with TickerProviderStateMixin {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: widget.isAllLanguagesToggledNotifier,
+              builder: (context, value, child) {
+                return Switch(
+                  value: value,
+                  onChanged: (bool newValue) {
+                    widget.isAllLanguagesToggledNotifier.value = newValue;
+                  },
+                );
+              },
+            ),
             Row(
               children: [
                 Text(
