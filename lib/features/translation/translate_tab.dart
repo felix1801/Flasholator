@@ -5,6 +5,7 @@ import '../../core/services/translator/deepl_translator.dart'; // version traduc
 import '../shared/utils/language_selection.dart';
 import '../../config/constants.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../shared/dialogs/cancel_dialog.dart';
 
 class TranslateTab extends StatefulWidget {
   final FlashcardsCollection flashcardsCollection;
@@ -119,7 +120,7 @@ class _TranslateTabState extends State<TranslateTab> {
           _wordToTranslate, _translatedWord, _sourceLanguage, _targetLanguage);
 
       widget.updateQuestionText();
-      setState(() {});
+      setState(() {isAddButtonDisabled = true;});
 
       // Confirm that the card was added
       Fluttertoast.showToast(
@@ -132,7 +133,21 @@ class _TranslateTabState extends State<TranslateTab> {
         fontSize: 16.0,
       );
     }
-    isAddButtonDisabled = true;
+
+    // open cancel dialog
+    CancelDialog.show(
+      context,
+      onCancel: () {
+        widget.flashcardsCollection.removeFlashcard(_wordToTranslate, _translatedWord);
+        // close the dialog
+        Navigator.of(context).pop();
+        setState(() {
+          isTranslateButtonDisabled = true;
+          isAddButtonDisabled = false;
+        });
+        _updateButtonState();
+      },
+    );
   }
 
   @override
