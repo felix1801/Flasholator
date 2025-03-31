@@ -27,7 +27,7 @@ __[Ajouter captures d'écran et tuto]__
 - Changement vers l'API DeepL extension
 - Statistiques de traduction et de révision
 - Choix de la langue de l'interface utilisateur
-- Choix du couple de langue au démarrage 
+- Choix du couple de langue au premier lancement 
 - (Ajout des publicités)
 - Ajout de la prononciation de la traduction
 - Ajout d'une option Android native pour traduire avec Flasholator et ajouter une carte depuis une autre appliation lorsqu'un texte est sélectionné
@@ -42,12 +42,27 @@ __[Ajouter captures d'écran et tuto]__
   - Sauvegarder les données directement sur le téléphone (comme WhatsApp).
   - Possibilité d'exporter et d'importer la base de données.
 
-### Interface et expérience utilisateur :
-- Réduire au maximum le nombre de clics nécessaires pour utiliser l'application.
-- Utiliser des thèmes familiers aux utilisateurs, inspirés de Google, DeepL ou Duolingo.
+### Expérience utilisateur :
+- Réduction au maximum le nombre de clics nécessaires pour utiliser l'application.
+- Mettre tous les boutons dans la thumb zone
+- Ajout d'un Call To Action (titre, texte, image animée, bouton) pour ajouter de nouveaux mots quand plus de mots à réviser
+- Ajout messages de remerciement et motivation
+- Modification de la dynamique des boutons de qualité pour glisser 1 unique bouton vers la qualité correspondante
+- Offrir une option de personnalisation des boutons de qualité (premium, payant ?)
+- Ajout barre de progression pour les cartes à réviser aujourd'hui
+- Ajout indicateur carte nouvelle ou déjà révisée
+- Tutoriel long et engageant pour l'utilisateur
+
+### Interface utilisateur :
+- Utiliser des thèmes familiers aux utilisateurs, inspirés de Google, DeepL ou Duolingo. Ou bien, utiliser un thème bouche pour corréler avec le nom de l'application "Polylingus"
 - Afficher les résultats de traduction dans un encart stylisé, plutôt que sur un fond blanc.
 - Ajouter une image dans l’onglet de révision pour inciter l’utilisateur à prononcer le mot (ex. : emoji qui pense ou parle).
 - Rendre le texte indicatif (hint) pour le mot à traduire moins visible, pour ne pas distraire l'utilisateur.
+- Ajouter un dark mode
+- Remplir l'écran pour ne pas laisser de vide
+- Ajouter des sons et animations à forte intensité (style Candy Crush)
+- Choisir une couleur accent qui sera celle du logo et des boutons d'action
+
 
 ## Contribution
 
