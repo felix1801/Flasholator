@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/services/flashcards/flashcards_collection.dart';
 import '../shared/utils/language_selection.dart';
 import '../../config/constants.dart';
+import 'widgets/all_languages_table.dart';
+import 'widgets/couple_languages_table.dart';
 
 // Add doc comments
 class DataTableTab extends StatefulWidget {
@@ -235,41 +237,24 @@ class DataTableTabState extends State<DataTableTab> {
                 },
               ),
             Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: DataTable(
-                  headingRowHeight: kMinInteractiveDimension,
-                  columns: [
-                    DataColumn(
-                      label: SizedBox(
-                        width: constraints.maxWidth * 0.35,
-                        child:
-                            Text(LANGUAGES[languageSelection.sourceLanguage]!),
-                      ),
-                    ),
-                    DataColumn(
-                      label: SizedBox(
-                        width: constraints.maxWidth * 0.35,
-                        child:
-                            Text(LANGUAGES[languageSelection.targetLanguage]!),
-                      ),
-                    ),
-                  ],
-                  rows: data.map((rowData) {
-                    return DataRow(cells: [
-                      DataCell(GestureDetector(
-                          onTap: () {
-                            _openEditPopup(rowData, 'front');
-                          },
-                          child: Text(rowData['front']))),
-                      DataCell(GestureDetector(
-                          onTap: () {
-                            _openEditPopup(rowData, 'back');
-                          },
-                          child: Text(rowData['back']))),
-                    ]);
-                  }).toList(),
-                ),
+              child: ValueListenableBuilder<bool>(
+                valueListenable: widget.isAllLanguagesToggledNotifier,
+                builder: (context, isAllLanguagesToggled, child) {
+                  if (isAllLanguagesToggled) {
+                    return AllLanguagesTable(
+                      data: data,
+                      onCellTap: _openEditPopup,
+                      languages: LANGUAGES,
+                    );
+                  } else {
+                    return CoupleLanguagesTable(
+                      data: data,
+                      sourceLanguage: LANGUAGES[languageSelection.sourceLanguage]!,
+                      targetLanguage: LANGUAGES[languageSelection.targetLanguage]!,
+                      onCellTap: _openEditPopup,
+                    );
+                  }
+                },
               ),
             ),
             ElevatedButton(
@@ -284,37 +269,4 @@ class DataTableTabState extends State<DataTableTab> {
       );
     });
   }
-}
-
-class _DataSource extends DataTableSource {
-  final List<Map> data;
-  final Function(Map<dynamic, dynamic>, String) _openEditPopup;
-
-  _DataSource(this.data, this._openEditPopup);
-
-  @override
-  DataRow? getRow(int index) {
-    final rowData = data[index];
-    return DataRow(cells: [
-      DataCell(GestureDetector(
-          onTap: () {
-            _openEditPopup(data[index], 'front');
-          },
-          child: Text(rowData['front']))),
-      DataCell(GestureDetector(
-          onTap: () {
-            _openEditPopup(data[index], 'back');
-          },
-          child: Text(rowData['back']))),
-    ]);
-  }
-
-  @override
-  int get rowCount => data.length;
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get selectedRowCount => 0;
 }
