@@ -29,7 +29,12 @@ class DataTableTabState extends State<DataTableTab> {
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    _fetchData(widget.isAllLanguagesToggledNotifier.value);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void updateSwitchState(bool newValue) {
@@ -38,15 +43,19 @@ class DataTableTabState extends State<DataTableTab> {
     });
   }
 
-  Future<void> _fetchData() async {
+  Future<void> _fetchData(bool isAllLanguagesToggled) async {
     List<Map<dynamic, dynamic>> fetchedData =
         await widget.flashcardsCollection.loadData();
     setState(() {
-      data = fetchedData
+      if (isAllLanguagesToggled) {
+        data = fetchedData.where((row) => fetchedData.indexOf(row) % 2 == 0).toList();
+      } else {
+        data = fetchedData
           .where((row) =>
               row['sourceLang'] == languageSelection.sourceLanguage &&
               row['targetLang'] == languageSelection.targetLanguage)
           .toList();
+      }
     });
   }
 
@@ -220,6 +229,7 @@ class DataTableTabState extends State<DataTableTab> {
                     value: value,
                     onChanged: (bool newValue) {
                       widget.isAllLanguagesToggledNotifier.value = newValue;
+                      _fetchData(newValue);
                     },
                   );
                 },
