@@ -24,23 +24,24 @@ __[Ajouter captures d'écran et tuto]__
 
 ## Roadmap :
 ### Fonctionnalités :
-- Changement vers l'API DeepL extension
 - Statistiques de traduction et de révision
-- Choix de la langue de l'interface utilisateur
-- Choix du couple de langue au premier lancement 
-- (Ajout des publicités)
-- Ajout de la prononciation de la traduction
-- Ajout d'une option Android native pour traduire avec Flasholator et ajouter une carte depuis une autre appliation lorsqu'un texte est sélectionné
-- Ajout de notifications de rappel quand il y a des cartes à réviser
-- Permettre à l'utilisateur d'écrire le mot révisé pour le vérifier si nécessaire.
-- Modifier un couple de mots enregistrés au lieu d'un mot unique.
-- Offrir un choix entre plusieurs résultats lors de la traduction.
-- Ajouter une ou deux langues supplémentaires avec des traductions ludiques (fun translator).
+- Choix de la langue de l'app
+- Choix du trouple de langue au premier lancement 
+- Option écrire le mot pour le vérifier.
+- Une ou deux langues fun translator
+- Android native traduire avec Flasholator et ajouter une carte depuis une autre appliation
+- Notifications de rappel cartes à réviser
+- Plusieurs résultats lors de la traduction.
+- Prononciation
+- Publicités
+- Compte utilisateur
+
+### Fonctionnalités premium 
+- Abonnement 
+- Filter fonctionnalités premium
 - Créer des groupes de mots pour les révisions (ex. : vacances, bureau, cuisine).
-- Ajouter un bouton pour afficher toutes les langues dans la liste des mots enregistrés.
-- Gérer le  stockage :
-  - Sauvegarder les données directement sur le téléphone (comme WhatsApp).
-  - Possibilité d'exporter et d'importer la base de données.
+- Sauvegarder les données directement sur le téléphone (comme WhatsApp).
+- Import/Export des données de l'utilisateur.
 
 ### Expérience utilisateur :
 - Réduction au maximum le nombre de clics nécessaires pour utiliser l'application.
