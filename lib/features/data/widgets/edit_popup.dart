@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../config/constants.dart';
 
 class EditPopup extends StatefulWidget {
   final Map<dynamic, dynamic> row;
@@ -103,10 +104,10 @@ class _EditPopupState extends State<EditPopup> {
               });
             }
           } : null,
-          items: <String>['FR', 'EN', 'ES'].map((String value) {
+          items: LANGUAGES.keys.map((String key) { // Utilisez les clés de LANGUAGES
             return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
+              value: key, // La valeur passée est la clé (code à deux lettres)
+              child: Text(LANGUAGES[key]!), // Affichez le nom complet de la langue
             );
           }).toList(),
         ),
