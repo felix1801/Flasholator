@@ -5,6 +5,7 @@ import '../shared/utils/language_selection.dart';
 import '../../config/constants.dart';
 import 'widgets/all_languages_table.dart';
 import 'widgets/couple_languages_table.dart';
+import 'widgets/edit_popup.dart'; 
 
 // Add doc comments
 class DataTableTab extends StatefulWidget {
@@ -74,51 +75,32 @@ class DataTableTabState extends State<DataTableTab> {
     });
   }
 
-  void editRow(String? newText, Map<dynamic, dynamic> row, String key) {
+  void editRow(String? newText, Map<dynamic, dynamic> row, String face) {
     final front = row['front'];
     final back = row['back'];
-    final newFront = key == 'front' ? newText : row['front'];
-    final newBack = key == 'back' ? newText : row['back'];
+    final newFront = face == 'front' ? newText : row['front'];
+    final newBack = face == 'back' ? newText : row['back'];
 
     if (data.contains(row) && newText != null) {
       widget.flashcardsCollection.editFlashcard(front, back, newFront, newBack);
       setState(() {
-        row[key] = newText;
+        row[face] = newText;
       });
       widget.updateQuestionText();
     }
   }
 
-  void _openEditPopup(Map<dynamic, dynamic> row, String key) {
-    String? newText;
-
+  void _openEditPopup(Map<dynamic, dynamic> row, String face) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Modifier un mot'),
-          content: TextField(
-            controller: TextEditingController(text: row[key]),
-            onChanged: (String value) {
-              newText = value;
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                editRow(newText, row, key);
-                Navigator.of(context).pop();
-              },
-              child: const Text('Modifier'),
-            ),
-            TextButton(
-              onPressed: () {
-                _openConfirmPopup(row, context);
-              },
-              child: const Text('Supprimer'),
-            ),
-          ],
-        );
+        return EditPopup(
+        row: row,
+        face: face,
+        onEdit: editRow, // Assurez-vous que editRow est définie dans votre fichier principal
+        onDelete: _openConfirmPopup, // Assurez-vous que _openConfirmPopup est définie dans votre fichier principal
+      );
+
       },
     );
   }
