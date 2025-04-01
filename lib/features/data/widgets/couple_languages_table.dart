@@ -4,9 +4,10 @@ class CoupleLanguagesTable extends StatelessWidget {
   final List<Map<dynamic, dynamic>> data;
   final String sourceLanguage;
   final String targetLanguage;
-  final Function(Map<dynamic, dynamic>, String) onCellTap;
+  final Function(Map<dynamic, dynamic>) onCellTap; // Modified to accept the entire row
 
-  const CoupleLanguagesTable({super.key, 
+  const CoupleLanguagesTable({
+    super.key,
     required this.data,
     required this.sourceLanguage,
     required this.targetLanguage,
@@ -35,12 +36,12 @@ class CoupleLanguagesTable extends StatelessWidget {
         rows: data.map((rowData) {
           return DataRow(cells: [
             DataCell(GestureDetector(
-              onTap: () => onCellTap(rowData, 'front'),
-              child: Text(rowData['front']),
+              onTap: () => onCellTap(rowData), // Modified to pass the entire row
+              child: Text(rowData['front']), // Modified to use 'word'
             )),
             DataCell(GestureDetector(
-              onTap: () => onCellTap(rowData, 'back'),
-              child: Text(rowData['back']),
+              onTap: () => onCellTap(rowData), // Modified to pass the entire row
+              child: Text(rowData['back']), // Modified to use 'translation'
             )),
           ]);
         }).toList(),

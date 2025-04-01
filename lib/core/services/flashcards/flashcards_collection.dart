@@ -116,21 +116,41 @@ if (Platform.isAndroid || Platform.isIOS) {
   }
 
   void editFlashcard(
-      String front, String back, String newFront, String newBack) async {
+    String front,
+    String back,
+    String sourceLang,
+    String targetLang,
+    String newFront,
+    String newBack,
+    String newSourceLang,
+    String newTargetLang,
+  ) async {
     // Edit a flashcard and its reversed in the database
     await _database.transaction((txn) async {
       // With _database.transaction((txn)), update the front and back of the cards as a unique request to the database. If one fails, the other will not be executed.
       await txn.update(
         table,
-        {'front': newFront, 'back': newBack},
-        where: 'front = ? AND back = ?',
-        whereArgs: [front, back],
+        {
+          'front': newFront,
+          'back': newBack,
+          'sourceLang': newSourceLang,
+          'targetLang': newTargetLang,
+        },
+        where:
+            'front = ? AND back = ? AND sourceLang = ? AND targetLang = ?',
+        whereArgs: [front, back, sourceLang, targetLang],
       );
       await txn.update(
         table,
-        {'front': newBack, 'back': newFront},
-        where: 'front = ? AND back = ?',
-        whereArgs: [back, front],
+        {
+          'front': newBack,
+          'back': newFront,
+          'sourceLang': newTargetLang,
+          'targetLang': newSourceLang,
+        },
+        where:
+            'front = ? AND back = ? AND sourceLang = ? AND targetLang = ?',
+        whereArgs: [back, front, targetLang, sourceLang],
       );
     });
   }

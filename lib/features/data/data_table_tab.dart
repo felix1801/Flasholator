@@ -75,32 +75,42 @@ class DataTableTabState extends State<DataTableTab> {
     });
   }
 
-  void editRow(String? newText, Map<dynamic, dynamic> row, String face) {
+  void editRow(Map<String, String> newData, Map<dynamic, dynamic> row) {
     final front = row['front'];
     final back = row['back'];
-    final newFront = face == 'front' ? newText : row['front'];
-    final newBack = face == 'back' ? newText : row['back'];
+    final sourceLanguage = row['sourceLang'];
+    final targetLanguage = row['targetLang'];
 
-    if (data.contains(row) && newText != null) {
-      widget.flashcardsCollection.editFlashcard(front, back, newFront, newBack);
+    if (data.contains(row)) {
+      widget.flashcardsCollection.editFlashcard(
+          front,
+          back,
+          sourceLanguage,
+          targetLanguage,
+          newData['front']!,
+          newData['back']!,
+          newData['sourceLang']!,
+          newData['targetLang']!);
       setState(() {
-        row[face] = newText;
+        row['sourceLang'] = newData['sourceLang'];
+        row['front'] = newData['front'];
+        row['back'] = newData['back'];
+        row['targetLang'] = newData['targetLang'];
       });
       widget.updateQuestionText();
     }
   }
 
-  void _openEditPopup(Map<dynamic, dynamic> row, String face) {
+  void _openEditPopup(Map<dynamic, dynamic> row) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return EditPopup(
-        row: row,
-        face: face,
-        onEdit: editRow, // Assurez-vous que editRow est définie dans votre fichier principal
-        onDelete: _openConfirmPopup, // Assurez-vous que _openConfirmPopup est définie dans votre fichier principal
-      );
-
+          row: row,
+          onEdit: editRow,
+          onDelete: removeRow,
+          languageDropdownEnabled: widget.isAllLanguagesToggledNotifier.value,
+        );
       },
     );
   }
@@ -172,32 +182,6 @@ class DataTableTabState extends State<DataTableTab> {
     );
   }
 
-  void _openConfirmPopup(
-      Map<dynamic, dynamic> row, BuildContext parentContext) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Es-tu sûr ?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                removeRow(row);
-                Navigator.of(parentContext).pop();
-                Navigator.of(context).pop();
-              },
-              child: const Text('Oui'),
-            ),
-            TextButton(
-              onPressed: Navigator.of(context).pop,
-              child: const Text('Non'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -219,26 +203,26 @@ class DataTableTabState extends State<DataTableTab> {
                 },
               ),
             Expanded(
-              child: ValueListenableBuilder<bool>(
-                valueListenable: widget.isAllLanguagesToggledNotifier,
-                builder: (context, isAllLanguagesToggled, child) {
-                  if (isAllLanguagesToggled) {
-                    return AllLanguagesTable(
-                      data: data,
-                      onCellTap: _openEditPopup,
-                      languages: LANGUAGES,
-                    );
-                  } else {
-                    return CoupleLanguagesTable(
-                      data: data,
-                      sourceLanguage: LANGUAGES[languageSelection.sourceLanguage]!,
-                      targetLanguage: LANGUAGES[languageSelection.targetLanguage]!,
-                      onCellTap: _openEditPopup,
-                    );
-                  }
-                },
-              ),
-            ),
+  child: ValueListenableBuilder<bool>(
+    valueListenable: widget.isAllLanguagesToggledNotifier,
+    builder: (context, isAllLanguagesToggled, child) {
+      if (isAllLanguagesToggled) {
+        return AllLanguagesTable(
+          data: data,
+          onCellTap: _openEditPopup, // Modified to pass only rowData
+          languages: LANGUAGES,
+        );
+      } else {
+        return CoupleLanguagesTable(
+          data: data,
+          sourceLanguage: LANGUAGES[languageSelection.sourceLanguage]!,
+          targetLanguage: LANGUAGES[languageSelection.targetLanguage]!,
+          onCellTap: _openEditPopup, // Modified to pass only rowData
+        );
+      }
+    },
+  ),
+),
             ElevatedButton(
               onPressed: _openAddPopup,
               style: ElevatedButton.styleFrom(
